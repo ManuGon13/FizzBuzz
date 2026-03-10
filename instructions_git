@@ -1,0 +1,115 @@
+╔══════════════════════════════════════════════════════════════╗
+║               WORKFLOW GIT — MINISHELL (42)                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  CLONER LE REPO  (une seule fois)
+────────────────────────────────────
+  Chacun fait :
+
+    git clone git@github-perso:ManuGon13/minishell.git
+    cd minishell
+
+  Vérifier que ça marche :
+
+    git status
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2️⃣  TOUJOURS RÉCUPÉRER LE TRAVAIL DE L'AUTRE
+─────────────────────────────────────────────
+  Avant de travailler :
+
+    git pull
+
+  ➜  Récupère les derniers changements du repo distant.
+  ➜  À faire à chaque début de session.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3️⃣  CRÉER UNE BRANCHE POUR TRAVAILLER
+──────────────────────────────────────
+  ⚠️  Ne travaillez JAMAIS directement sur main.
+
+  Exemples :
+
+    git checkout -b parsing
+    git checkout -b execution
+
+  Ton travail est maintenant isolé.
+  Ton teammate peut faire en parallèle :
+
+    git checkout -b builtins
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4️⃣  AJOUTER TES MODIFICATIONS
+──────────────────────────────
+  Après avoir codé :
+
+    git add .             # tout ajouter
+
+  Ou plus propre :
+
+    git add fichier.c     # ajouter un fichier précis
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5️⃣  FAIRE UN COMMIT
+────────────────────
+    git commit -m "Add tokenizer"
+
+  Un commit = une étape logique.
+
+  Exemples de bons messages :
+    • Add tokenizer
+    • Fix memory leak in parser
+    • Implement echo builtin
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6️⃣  ENVOYER SUR GITHUB
+───────────────────────
+    git push origin parsing
+
+  La première fois :
+
+    git push -u origin parsing
+
+  Ta branche est maintenant visible sur GitHub.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+7️⃣  FUSIONNER DANS MAIN
+────────────────────────
+  Quand la feature est stable :
+
+    1. Aller sur GitHub
+    2. Ouvrir une Pull Request
+    3. Merger dans main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8️⃣  L'AUTRE RÉCUPÈRE LES CHANGEMENTS
+──────────────────────────────────────
+  Ton teammate fait :
+
+    git checkout main
+    git pull
+
+  Puis il continue sur sa branche.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+9️⃣  WORKFLOW QUOTIDIEN
+───────────────────────
+  Chaque session de travail :
+
+    git checkout main
+    git pull
+    git checkout ta-branche
+
+  Puis :  Coder  →  git add  →  git commit  →  git push
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
