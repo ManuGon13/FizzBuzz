@@ -40,9 +40,7 @@ char	*ft_goodsub(char const *s, unsigned int start, size_t len)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*dup;
-	unsigned int	i;
 
-	i = 0;
 	if (s == NULL)
 		return (NULL);
 	if (start >= ft_strlen(s))
