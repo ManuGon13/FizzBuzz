@@ -1,14 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/02/28 13:04:46 by egonin           ###   ########.fr       */
+/*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
+/*   Updated: 2026/03/11 18:05:56 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -20,6 +22,7 @@
 # include	<stdio.h>
 # include	<limits.h>
 
+/* représente les éléments du lexer */
 typedef struct s_token
 {
 	char			*value;
@@ -27,6 +30,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+/* représente une commande exécutable */
 typedef struct s_cmd
 {
 	char	**argv;
@@ -38,6 +42,7 @@ typedef struct s_cmd
 
 } t_cmd;
 
+/* représente les variables d'environnement */
 typedef struct	s_env
 {
 	char	*key;
@@ -45,12 +50,14 @@ typedef struct	s_env
 	struct s_env	*next;
 } t_env;
 
+/* stocke l'état global du shell */
 typedef struct s_shell
 {
 	t_env	*env;
 	int	exit_status;
 } t_shell;
 
+/* Définie les types de tokens dans tout le proejt */
 enum e_token_type
 {
 	WORD,
