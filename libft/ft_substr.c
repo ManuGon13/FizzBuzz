@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egonin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 14:18:35 by egonin            #+#    #+#             */
-/*   Updated: 2025/11/12 16:14:59 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/11 18:52:33 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ char	*ft_goodsub(char const *s, unsigned int start, size_t len)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*dup;
-	unsigned int	i;
 
-	i = 0;
 	if (s == NULL)
 		return (NULL);
 	if (start >= ft_strlen(s))
