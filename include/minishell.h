@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/11 18:05:56 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/12 16:47:09 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include	<unistd.h>
 # include	<stdio.h>
 # include	<limits.h>
+# include	"libft.h"
 
 /* représente les éléments du lexer */
 typedef struct s_token
@@ -57,6 +58,16 @@ typedef struct s_shell
 	int	exit_status;
 } t_shell;
 
+/* Prototypes env */
+t_env	*env_new(char *key, char *value);
+t_env	*env_init(char **envp);
+void	env_add_back(t_env **env, t_env *new);
+char	*get_env_value(t_env *env, const char *key);
+void	env_set(t_env **env, char *key, char *value);
+void	env_delone(t_env *node);
+void	env_unset(t_env **env, char *key);
+int		env_size(t_env *env);
+
 /* Définie les types de tokens dans tout le proejt */
 enum e_token_type
 {
@@ -66,6 +77,6 @@ enum e_token_type
 	REDIR_OUT,
 	APPEND,
 	HEREDOC
-};
+} t_token_type;
 
 #endif

@@ -6,15 +6,15 @@
 #    By: egonin <egonin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/12 15:53:20 by egonin           ###   ########.fr        #
+#    Updated: 2026/03/12 15:57:24 by egonin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 
-SRCS		= env_init.c \
-			  env_utils.c \
+SRCS		= src/env/env_init.c \
+			  src/env/env_utils.c \
 
 	  
 OBJS		= $(SRCS:.c=.o)
@@ -22,7 +22,7 @@ OBJS		= $(SRCS:.c=.o)
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-INCS		= -I. -I$(LIBFT_DIR)
+INCS		= -I. -Iinclude -I$(LIBFT_DIR)
 
 NAME		= minishell
 

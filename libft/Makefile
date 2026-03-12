@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: egonin <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: egonin <egonin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2025/11/12 14:37:48 by egonin           ###   ########.fr        #
+#    Updated: 2026/03/12 16:00:18 by egonin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS		= ft_isalpha.c \
 		  ft_strchr.c \
 		  ft_strrchr.c \
 		  ft_strncmp.c \
+		  ft_strcmp.c \
 		  ft_memchr.c \
 		  ft_memcmp.c \
 		  ft_strnstr.c \

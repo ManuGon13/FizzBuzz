@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/12 15:53:23 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/12 17:21:55 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ t_env    *env_init(char **envp)
     int     i;
     t_env    *env;
     char    *equal;
+
+    char    *key;
+    char    *value;
 
     i = 0;
     env = NULL;
@@ -64,3 +67,4 @@ void	env_add_back(t_env **env, t_env *new)
 
 	tmp->next = new;
 }
+
