@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/11 18:36:08 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/12 10:50:57 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
+#include "minishell.h"
+
+void lexer(char *input)
+{
+    (void)input;
+}
+
+void parser(void)
+{
+}
+
+void execute(void)
+{
+}
 
 int main(void)
 {
@@ -29,6 +39,9 @@ int main(void)
         }
         if (line && *line)
             add_history(line);
+        lexer(line);
+        parser();
+        execute();
         free(line);
     }
     return (0);

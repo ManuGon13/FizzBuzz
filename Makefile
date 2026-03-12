@@ -6,14 +6,14 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/11 19:13:57 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/03/12 10:48:48 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -I./include
 
-SRCS		= src/first.c
+SRCS		= src/main.c
 
 OBJ_DIR		= obj
 OBJS		= $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRCS))

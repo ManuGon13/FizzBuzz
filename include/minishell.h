@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/02/28 13:04:46 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/12 10:50:52 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include	<unistd.h>
 # include	<stdio.h>
 # include	<limits.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_token
 {
