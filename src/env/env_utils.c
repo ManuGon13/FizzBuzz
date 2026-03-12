@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:37:10 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/12 11:54:52 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/12 15:50:55 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,17 @@ void    env_unset(t_env **env, char *key)
         prev = tmp;
         tmp = tmp->next;
     }
+}
+
+int env_size(t_env *env)
+{
+    int count;
+
+    count = 0;
+    while (env)
+    {
+        count++;
+        env = env->next;
+    }
+    return (count);
 }

@@ -6,14 +6,15 @@
 #    By: egonin <egonin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/02/28 13:09:41 by egonin           ###   ########.fr        #
+#    Updated: 2026/03/12 15:53:20 by egonin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 
-SRCS		= 
+SRCS		= env_init.c \
+			  env_utils.c \
 
 	  
 OBJS		= $(SRCS:.c=.o)
