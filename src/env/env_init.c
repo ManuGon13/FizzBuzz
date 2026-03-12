@@ -6,20 +6,34 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/11 18:33:58 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/12 10:34:43 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_env    *env_new(char *key, char *value)
+{
+    t_env    *node;
+
+    node = malloc(sizeof(t_env));
+    if (!node)
+        return (NULL);
+    node->key = key;
+    node->value = value;
+    node->next = NULL;
+    return (node);
+}
 
 
 t_env    *env_init(char **envp)
 {
     int     i;
+    t_env    *env;
     char    *equal;
 
     i = 0;
+    env = NULL;
     while (envp[i])
     {
         if (ft_strchr(envp[i], '=') != NULL)
@@ -27,20 +41,26 @@ t_env    *env_init(char **envp)
             equal = ft_strchr(envp[i], '=');
             key = ft_substr(envp[i], 0, equal - envp[i]);
             value = ft_strdup(equal + 1);
+            env_add_back(&env, env_new(key, value));
         }
-    }
         i++;
+    }
+    return (env);
 }
-t_env    *env_init(char **envp)
+void	env_add_back(t_env **env, t_env *new)
 {
-    int     i;
-    char    *equal;
+	t_env *tmp;
 
-    i = 0;
-    while (envp[i])
-    {
-        if (ft_strchr(envp[i], '=') != NULL)
-        {
-            equal = ft_strchr(envp[i], '=');
-            key = ft_substr(envp[i], 0, equal - envp[i]);
-            value = ft_
+	if (!*env)
+	{
+		*env = new;
+		return;
+	}
+
+	tmp = *env;
+
+	while (tmp->next)
+		tmp = tmp->next;
+
+	tmp->next = new;
+}
