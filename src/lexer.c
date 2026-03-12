@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:22:41 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/12 18:41:00 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:23:52 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,18 @@ t_token	*token_new(char *value, t_token_type type)
 	return (token);
 }
 
+void	read_word(char *input, int *i, t_token **tokens)
+{
+	int		start;
+	char	*word;
 
+	start = *i;
+	while((input[*i] && input[*i] != ' ' && input[*i] != '|' && input[*i] != '<')
+		&& (input[*i] != '>'))
+		(*i)++;
+	word = ft_substr(input, start, *i - start);
+	token_add_back(tokens, token_new(word, WORD));
+}
 t_token	*lexer(char *input)
 {
 	int	i;
