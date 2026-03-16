@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 11:33:57 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 15:17:05 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ typedef enum e_token_type
 	REDIR_OUT,
 	APPEND,
 	HEREDOC
-} t_token_type;
+}	t_token_type;
 
 #endif

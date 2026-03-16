@@ -15,8 +15,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 SRCS		= src/env/env_init.c \
 			  src/env/env_utils.c \
-
-	  
+			  src/lexer.c
 OBJS		= $(SRCS:.c=.o)
 
 LIBFT_DIR	= libft

@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:22:41 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 11:11:18 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 15:23:39 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,32 @@ void	read_word(char *input, int *i, t_token **tokens)
 	token_add_back(tokens, token_new(word, WORD));
 }
 
+void	handle_operator(char *input, int *i, t_token **tokens)
+{
+	if (input[*i] == '|')
+		token_add_back(tokens, token_new(ft_strdup("|"), PIPE));
+	else if (input[*i] == '<')
+	{
+		if (input[*i + 1] == '<')
+			token_add_back(tokens, token_new(ft_strdup("<<"), HEREDOC));
+		else
+			token_add_back(tokens, token_new(ft_strdup("<"), REDIR_IN));
+	}
+	else if (input[*i] == '>')
+	{
+		if (input[*i + 1] == '>')
+			token_add_back(tokens, token_new(ft_strdup(">>"), APPEND));
+		else
+			token_add_back(tokens, token_new(ft_strdup(">"), REDIR_OUT));
+	}
+	if (input[*i] == '|')
+		(*i)++;
+	else if (input[*i + 1] == input[*i])
+		*i += 2;
+	else
+		(*i)++;
+}
+
 t_token	*lexer(char *input)
 {
 	int		i;
@@ -64,37 +90,8 @@ t_token	*lexer(char *input)
 	{
 		if (input[i] == ' ')
 			i++;
-		else if (input[i] == '|')
-		{
-			token_add_back(&tokens, token_new(ft_strdup("|"), PIPE));
-			i++;
-		}
-		else if (input[i] == '<')
-		{
-			if (input[i + 1] == '<')
-			{
-				token_add_back(&tokens, token_new(ft_strdup("<<"), HEREDOC));
-				i = i + 2;
-			}
-			else
-			{
-				token_add_back(&tokens, token_new(ft_strdup("<"), REDIR_IN));
-				i++;
-			}
-		}
-		else if (input[i] == '>')
-		{
-			if (input[i + 1] == '>')
-			{
-				token_add_back(&tokens, token_new(ft_strdup(">>"), APPEND));
-				i = i + 2;
-			}
-			else
-			{
-				token_add_back(&tokens, token_new(ft_strdup(">"), REDIR_OUT));
-				i++;
-			}
-		}
+		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
+			handle_operator(input, &i, &tokens);
 		else
 			read_word(input, &i, &tokens);
 	}
