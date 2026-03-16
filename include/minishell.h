@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 11:05:48 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 11:33:57 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	env_unset(t_env **env, char *key);
 int		env_size(t_env *env);
 
 /* Définie les types de tokens dans tout le proejt */
-enum	e_token_type
+typedef enum e_token_type
 {
 	WORD,
 	PIPE,

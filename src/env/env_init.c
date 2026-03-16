@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 11:13:25 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 11:53:33 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,34 @@ void	env_add_back(t_env **env, t_env *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+}
+
+/* Fonction test */
+void	print_tokens(t_token *tokens)
+{
+    while (tokens)
+    {
+        printf("TOKEN: %s\n", tokens->value);
+        tokens = tokens->next;
+    }
+}
+
+int	main(void)
+{
+    t_token t1;
+    t_token t2;
+    t_token t3;
+
+    t1.value = "ls";
+    t1.next = &t2;
+
+    t2.value = ">>";
+    t2.next = &t3;
+
+    t3.value = "file.txt";
+    t3.next = NULL;
+
+    print_tokens(&t1);
+
+    return 0;
 }

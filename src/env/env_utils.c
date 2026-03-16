@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:37:10 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 11:22:54 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 11:34:34 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,3 @@ int	env_size(t_env *env)
 	return (count);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_env	*env;
-
-	(void)argc;
-	(void)argv;
-	env = env_init(envp);
-	printf("%s\n", get_env_value(env, "PATH"));
-	return (0);
-}
