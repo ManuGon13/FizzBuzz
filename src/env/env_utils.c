@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:37:10 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/12 17:47:07 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 11:22:54 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	env_set(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 	t_env	*new;
-	
+
 	if (!env || !key || !value)
 		return ;
 	tmp = *env;
@@ -50,7 +50,7 @@ void	env_set(t_env **env, char *key, char *value)
 void	env_delone(t_env *node)
 {
 	if (!node)
-		return;
+		return ;
 	free(node->key);
 	free(node->value);
 	free(node);
@@ -60,7 +60,7 @@ void	env_unset(t_env **env, char *key)
 {
 	t_env	*tmp;
 	t_env	*prev;
-	
+
 	if (!env || !*env || !key)
 		return ;
 	tmp = *env;
@@ -84,7 +84,7 @@ void	env_unset(t_env **env, char *key)
 int	env_size(t_env *env)
 {
 	int	count;
-	
+
 	count = 0;
 	while (env)
 	{
@@ -97,7 +97,7 @@ int	env_size(t_env *env)
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
-	
+
 	(void)argc;
 	(void)argv;
 	env = env_init(envp);

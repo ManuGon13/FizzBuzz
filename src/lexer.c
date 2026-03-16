@@ -6,10 +6,9 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:22:41 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/12 19:23:52 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 11:11:18 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -20,21 +19,18 @@ void	token_add_back(t_token **list, t_token *new)
 	if (!*list)
 	{
 		*list = new;
-		return;
+		return ;
 	}
-
 	tmp = *list;
-
 	while (tmp->next)
 		tmp = tmp->next;
-
 	tmp->next = new;
 }
 
 t_token	*token_new(char *value, t_token_type type)
 {
 	t_token	*token;
-	
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
@@ -50,20 +46,21 @@ void	read_word(char *input, int *i, t_token **tokens)
 	char	*word;
 
 	start = *i;
-	while((input[*i] && input[*i] != ' ' && input[*i] != '|' && input[*i] != '<')
-		&& (input[*i] != '>'))
+	while ((input[*i] && input[*i] != ' ')
+		&& (input[*i] != '|' && input[*i] != '<' && input[*i] != '>'))
 		(*i)++;
 	word = ft_substr(input, start, *i - start);
 	token_add_back(tokens, token_new(word, WORD));
 }
+
 t_token	*lexer(char *input)
 {
-	int	i;
+	int		i;
 	t_token	*tokens;
-	
+
 	i = 0;
 	tokens = NULL;
-	while(input[i])
+	while (input[i])
 	{
 		if (input[i] == ' ')
 			i++;

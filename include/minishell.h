@@ -6,22 +6,20 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/12 16:47:09 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 11:05:48 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include	<pthread.h>
-# include	<sys/time.h>
-# include	<stdlib.h>
-# include	<unistd.h>
-# include	<stdio.h>
-# include	<limits.h>
-# include	"libft.h"
+# include <pthread.h>
+# include <sys/time.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
+# include "libft.h"
 
 /* représente les éléments du lexer */
 typedef struct s_token
@@ -34,29 +32,27 @@ typedef struct s_token
 /* représente une commande exécutable */
 typedef struct s_cmd
 {
-	char	**argv;
-	char	*infile;
-	char	*outfile;
-	int		append;
-	
+	char			**argv;
+	char			*infile;
+	char			*outfile;
+	int				append;
 	struct s_cmd	*next;
-
-} t_cmd;
+}	t_cmd;
 
 /* représente les variables d'environnement */
-typedef struct	s_env
+typedef struct s_env
 {
-	char	*key;
-	char	*value;
+	char			*key;
+	char			*value;
 	struct s_env	*next;
-} t_env;
+}	t_env;
 
 /* stocke l'état global du shell */
 typedef struct s_shell
 {
 	t_env	*env;
-	int	exit_status;
-} t_shell;
+	int		exit_status;
+}	t_shell;
 
 /* Prototypes env */
 t_env	*env_new(char *key, char *value);
@@ -69,7 +65,7 @@ void	env_unset(t_env **env, char *key);
 int		env_size(t_env *env);
 
 /* Définie les types de tokens dans tout le proejt */
-enum e_token_type
+enum	e_token_type
 {
 	WORD,
 	PIPE,
