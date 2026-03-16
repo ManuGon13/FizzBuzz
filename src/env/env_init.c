@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 15:16:26 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 20:05:37 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,10 @@ int	main(void)
 
 	t1.value = "ls      ";
 	t1.next = &t2;
-
 	t2.value = ">>";
 	t2.next = &t3;
-
 	t3.value = "file.txt";
 	t3.next = NULL;
-
 	print_tokens(&t1);
-
 	return (0);
 }

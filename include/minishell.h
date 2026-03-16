@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 15:17:05 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/16 19:55:00 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				append;
+	char			*heredoc_delim;
+	int				heredoc;
 	struct s_cmd	*next;
 }	t_cmd;
 
