@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 16:46:24 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/16 19:25:46 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ t_token	*lexer(char *input);
 
 /* Prototypes clear and free*/
 void	free_tokens(t_token *tokens);
+
+/* Prototypes executor */
+void	execution(t_cmd *cmd, t_env *env);
+void	prepare_exec(t_cmd *cmd, char **envp);
+void	free_split(char **split);
+void	print_error(char *command, int i);
+
 
 /* Définie les types de tokens dans tout le projet */
 typedef enum e_token_type

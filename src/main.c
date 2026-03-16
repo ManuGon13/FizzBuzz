@@ -6,17 +6,13 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/16 16:50:31 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/16 19:27:16 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	parser(void)
-{
-}
-
-void	execute(void)
 {
 }
 
@@ -33,7 +29,10 @@ int	main(void)
 {
 	char	*line;
 	t_token	*tokens;
+	t_cmd	*cmds;
+	t_env	env;
 
+	env = init_env(envp);
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -49,7 +48,7 @@ int	main(void)
 		print_tokens(tokens);
 		free_tokens(tokens);
 		parser();
-		execute();
+		execution(cmds, env);
 	}
 	clear_history();
 	return (0);
