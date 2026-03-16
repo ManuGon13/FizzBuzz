@@ -6,14 +6,16 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/12 10:48:48 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/03/16 16:34:22 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -I./include
+CFLAGS		= -Wall -Wextra -Werror -I./include -I./libft
 
-SRCS		= src/main.c
+SRCS		= src/main.c \
+			src/lexer.c \
+			src/clear_and_free.c
 
 OBJ_DIR		= obj
 OBJS		= $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRCS))
