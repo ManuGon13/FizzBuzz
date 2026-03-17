@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 19:25:46 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/17 18:08:27 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 /* représente les éléments du lexer */
 typedef struct s_token
@@ -65,6 +67,7 @@ void	env_set(t_env **env, char *key, char *value);
 void	env_delone(t_env *node);
 void	env_unset(t_env **env, char *key);
 int		env_size(t_env *env);
+void	print_tokens(t_token *tokens);
 
 /* Prototype du lexer */
 t_token	*lexer(char *input);
@@ -72,12 +75,14 @@ t_token	*lexer(char *input);
 /* Prototypes clear and free*/
 void	free_tokens(t_token *tokens);
 
+/* Prototype parser */
+t_cmd	*parser(t_token *tokens);
+
 /* Prototypes executor */
 void	execution(t_cmd *cmd, t_env *env);
 void	prepare_exec(t_cmd *cmd, char **envp);
 void	free_split(char **split);
 void	print_error(char *command, int i);
-
 
 /* Définie les types de tokens dans tout le projet */
 typedef enum e_token_type

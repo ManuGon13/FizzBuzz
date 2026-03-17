@@ -6,24 +6,11 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 18:25:34 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/17 16:32:57 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/17 17:24:27 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	env_size(t_env *env)
-{
-	int	count;
-
-	count = 0;
-	while (env)
-	{
-		count++;
-		env = env->next;
-	}
-	return (count);
-}
 
 char	**env_to_array(t_env *env)
 {
