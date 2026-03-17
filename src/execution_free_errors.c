@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 19:09:42 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/16 19:18:59 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/17 16:25:51 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_split(char **split)
 {
 	int	i;
 
-    if (!split)
+	if (!split)
 		return ;
 	i = 0;
 	while (split[i])
