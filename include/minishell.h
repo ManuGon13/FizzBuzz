@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:52 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 19:55:00 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:40:43 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,6 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
-/* Prototypes env */
-t_env	*env_new(char *key, char *value);
-t_env	*env_init(char **envp);
-void	env_add_back(t_env **env, t_env *new);
-char	*get_env_value(t_env *env, const char *key);
-void	env_set(t_env **env, char *key, char *value);
-void	env_delone(t_env *node);
-void	env_unset(t_env **env, char *key);
-int		env_size(t_env *env);
-
 /* Définie les types de tokens dans tout le proejt */
 typedef enum e_token_type
 {
@@ -76,5 +66,27 @@ typedef enum e_token_type
 	APPEND,
 	HEREDOC
 }	t_token_type;
+
+/* Prototypes env */
+t_env	*env_new(char *key, char *value);
+t_env	*env_init(char **envp);
+void	env_add_back(t_env **env, t_env *new);
+char	*get_env_value(t_env *env, const char *key);
+void	env_set(t_env **env, char *key, char *value);
+void	env_delone(t_env *node);
+void	env_unset(t_env **env, char *key);
+int		env_size(t_env *env);
+
+/* Prototypes parser */
+void	add_arg(t_cmd *cmd, char *arg);
+t_cmd	*new_cmd(void);
+t_cmd	*parser(t_token *tokens);
+
+/* Prototypes lexer */
+void	token_add_back(t_token **list, t_token *new);
+t_token	*token_new(char *value, t_token_type type);
+void	read_word(char *input, int *i, t_token **tokens);
+void	handle_operator(char *input, int *i, t_token **tokens);
+t_token	*lexer(char *input);
 
 #endif

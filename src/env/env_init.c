@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 20:05:37 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:39:39 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,35 @@ void	env_add_back(t_env **env, t_env *new)
 
 void	print_tokens(t_token *tokens)
 {
+	char	*type_name;
+
 	while (tokens)
 	{
-		printf("TOKEN: %s\n", tokens->value);
+		type_name = "UNKNOWN";
+		if (tokens->type == WORD)
+			type_name = "WORD";
+		else if (tokens->type == PIPE)
+			type_name = "PIPE";
+		else if (tokens->type == REDIR_IN)
+			type_name = "REDIR_IN";
+		else if (tokens->type == REDIR_OUT)
+			type_name = "REDIR_OUT";
+		else if (tokens->type == APPEND)
+			type_name = "APPEND";
+		else if (tokens->type == HEREDOC)
+			type_name = "HEREDOC";
+		printf("%s %s\n", type_name, tokens->value);
 		tokens = tokens->next;
 	}
 }
 
 int	main(void)
 {
-	t_token	t1;
-	t_token	t2;
-	t_token	t3;
+	char	*input;
+	t_token	*tokens;
 
-	t1.value = "ls      ";
-	t1.next = &t2;
-	t2.value = ">>";
-	t2.next = &t3;
-	t3.value = "file.txt";
-	t3.next = NULL;
-	print_tokens(&t1);
+	input = "cat<in|grep test>out";
+	tokens = lexer(input);
+	print_tokens(tokens);
 	return (0);
 }
