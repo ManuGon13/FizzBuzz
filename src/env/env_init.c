@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/17 16:39:39 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/18 17:15:03 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,4 @@ void	print_tokens(t_token *tokens)
 		printf("%s %s\n", type_name, tokens->value);
 		tokens = tokens->next;
 	}
-}
-
-int	main(void)
-{
-	char	*input;
-	t_token	*tokens;
-
-	input = "cat<in|grep test>out";
-	tokens = lexer(input);
-	print_tokens(tokens);
-	return (0);
 }
