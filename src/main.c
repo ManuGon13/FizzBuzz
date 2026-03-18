@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/17 17:46:11 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/18 17:15:15 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_env *env)
 	cmds = parser(tokens);
 	free_tokens(tokens);
 	execution(cmds, env);
+	free_cmds(cmds);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -31,6 +32,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	tokens = NULL;
+	cmds = NULL;
 	env = env_init(envp);
 	while (1)
 	{
@@ -45,5 +48,6 @@ int	main(int ac, char **av, char **envp)
 		minishell(line, tokens, cmds, env);
 	}
 	clear_history();
+	free_env(env);
 	return (0);
 }

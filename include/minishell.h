@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/17 18:08:27 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/18 17:10:24 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ t_token	*lexer(char *input);
 
 /* Prototypes clear and free*/
 void	free_tokens(t_token *tokens);
+void	free_cmds(t_cmd *cmds);
+void	free_env(t_env *env);
 
 /* Prototype parser */
 t_cmd	*parser(t_token *tokens);

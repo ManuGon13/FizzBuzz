@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/16 20:07:23 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/18 17:21:49 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 	{
 		if (!(*tokens)->next || (*tokens)->next->type != WORD)
 			return ;
+		free(cmd->infile);
 		cmd->infile = ft_strdup((*tokens)->next->value);
 		*tokens = (*tokens)->next;
 	}
@@ -79,6 +80,7 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 	{
 		if (!(*tokens)->next || (*tokens)->next->type != WORD)
 			return ;
+		free(cmd->outfile);
 		cmd->outfile = ft_strdup((*tokens)->next->value);
 		cmd->append = ((*tokens)->type == APPEND);
 		*tokens = (*tokens)->next;
