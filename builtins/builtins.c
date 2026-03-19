@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 17:15:53 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/18 18:52:31 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/19 19:28:52 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	exec_builtin(t_cmd *cmd, t_env **env)
 	return (0);
 }
 
-int	ft_cd(t_cmd *cmd, t_env **env);
-
 void	ft_pwd(void)
 {
 	char	buf[1024];
@@ -64,4 +62,25 @@ int	ft_env(t_env *env)
 		env = env->next;
 	}
 	return (0);
+}
+
+void	ft_cd(t_cmd *cmd, t_env *env)
+{
+	char	*path;
+	int		res;
+
+	if (cmd->argv[1])
+		path = cmd->argv[1];
+	else
+	{
+		path = get_env_value(env, "HOME");
+		if (!path)
+		{
+			ft_printf("cd: HOME not set\n");
+			return;
+		}
+	}
+	res = chdir(path);
+	if (res != 0)
+			perror("cd");
 }
