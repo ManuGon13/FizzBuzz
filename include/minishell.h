@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/18 17:10:24 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/19 16:39:46 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include "libft.h"
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
@@ -68,6 +69,7 @@ void	env_delone(t_env *node);
 void	env_unset(t_env **env, char *key);
 int		env_size(t_env *env);
 void	print_tokens(t_token *tokens);
+char	**env_to_array(t_env *env);
 
 /* Prototype du lexer */
 t_token	*lexer(char *input);
@@ -85,6 +87,8 @@ void	execution(t_cmd *cmd, t_env *env);
 void	prepare_exec(t_cmd *cmd, char **envp);
 void	free_split(char **split);
 void	print_error(char *command, int i);
+void	infile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp);
+void	outfile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp);
 
 /* Définie les types de tokens dans tout le projet */
 typedef enum e_token_type

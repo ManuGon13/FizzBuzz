@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:05:33 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/17 17:42:56 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/19 16:37:25 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,31 @@ void	env_add_back(t_env **env, t_env *new)
 	tmp->next = new;
 }
 
+char	**env_to_array(t_env *env)
+{
+	char	**array;
+	char	*tmp;
+	int		i;
+	int		count;
+	t_env	*current;
+
+	count = env_size(env);
+	array = malloc(sizeof(char *) * (count + 1));
+	if (!array)
+		return (NULL);
+	current = env;
+	i = 0;
+	while (current)
+	{
+		tmp = ft_strjoin(current->key, "=");
+		array[i] = ft_strjoin(tmp, current->value);
+		free(tmp);
+		current = current->next;
+		i++;
+	}
+	array[i] = NULL;
+	return (array);
+}
 // void	print_tokens(t_token *tokens)
 // {
 // 	char	*type_name;

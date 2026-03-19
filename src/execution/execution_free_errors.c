@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 19:09:42 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/17 16:25:51 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/19 16:41:53 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,26 @@ void	print_error(char *command, int i)
 		write(2, command, ft_strlen(command));
 	}
 	write(2, "\n", 1);
+}
+
+void	infile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp)
+{
+	print_error(cmd->infile, 2);
+	if (prev_fd != STDIN_FILENO)
+		close(prev_fd);
+	close(fd[0]);
+	close(fd[1]);
+	free_split(envp);
+	exit(1);
+}
+
+void	outfile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp)
+{
+	print_error(cmd->outfile, 3);
+	if (prev_fd != STDIN_FILENO)
+		close(prev_fd);
+	close(fd[0]);
+	close(fd[1]);
+	free_split(envp);
+	exit(1);
 }

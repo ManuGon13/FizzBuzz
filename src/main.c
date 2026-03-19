@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/18 17:15:15 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/19 16:38:00 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_env *env)
 {
 	tokens = lexer(line);
 	free(line);
-	// print_tokens(tokens);
 	cmds = parser(tokens);
 	free_tokens(tokens);
 	execution(cmds, env);

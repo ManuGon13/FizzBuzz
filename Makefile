@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/17 17:17:37 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/03/19 16:40:21 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS		= src/main.c \
 			src/lexer.c \
 			src/clear_and_free.c \
 			src/execution/execution_free_errors.c \
-			src/execution/execution_init.c \
+			src/execution/execution.c \
 			src/execution/execution_path.c \
 			src/env/env_init.c \
 			src/env/env_utils.c \
