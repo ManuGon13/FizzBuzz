@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/19 16:39:46 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/19 17:54:40 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
+/* Prototypes clear and free*/
+void	free_tokens(t_token *tokens);
+void	free_cmds(t_cmd *cmds);
+void	free_env(t_env *env);
+
 /* Prototypes env */
 t_env	*env_new(char *key, char *value);
 t_env	*env_init(char **envp);
@@ -73,11 +78,6 @@ char	**env_to_array(t_env *env);
 
 /* Prototype du lexer */
 t_token	*lexer(char *input);
-
-/* Prototypes clear and free*/
-void	free_tokens(t_token *tokens);
-void	free_cmds(t_cmd *cmds);
-void	free_env(t_env *env);
 
 /* Prototype parser */
 t_cmd	*parser(t_token *tokens);
