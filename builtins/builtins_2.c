@@ -6,13 +6,11 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:34:37 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/20 19:09:29 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/20 19:11:20 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_export(t_cmd *cmd, t_env **env)
 
 int	is_valid_identifier(char *str)
 {
@@ -80,3 +78,5 @@ char	*extract_value(char *arg)
 	else
 		return(NULL);
 }
+
+int	ft_export(t_cmd *cmd, t_env **env)
