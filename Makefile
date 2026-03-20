@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/19 17:38:02 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/03/20 19:47:00 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,16 @@ SRCS		= src/main.c \
 			src/execution/execution_free_errors.c \
 			src/execution/execution.c \
 			src/execution/execution_path.c \
+			src/execution/execution_builtins.c \
+			src/execution/execution_redirection_builtin.c \
+			src/execution/execution_struct.c \
 			src/env/env_init.c \
 			src/env/env_utils.c \
 			src/env/env_utils2.c \
-			src/parser.c
+			src/parser.c \
+			src/builtins/ft_echo.c \
+			src/builtins/ft_exit.c \
+			src/builtins/ft_unset.c
 
 OBJ_DIR		= obj
 OBJS		= $(SRCS:src/%.c=$(OBJ_DIR)/%.o)

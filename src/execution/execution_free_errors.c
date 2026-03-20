@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 19:09:42 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/19 16:41:53 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/20 18:39:55 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,17 @@ void	outfile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp)
 	close(fd[1]);
 	free_split(envp);
 	exit(1);
+}
+
+void	closing(t_cmd *cmd, int *prev_fd, int *fd)
+{
+	if (*prev_fd != STDIN_FILENO)
+		close(*prev_fd);
+	if (cmd->next)
+	{
+		close(fd[1]);
+		*prev_fd = fd[0];
+	}
+	else
+		*prev_fd = STDIN_FILENO;
 }

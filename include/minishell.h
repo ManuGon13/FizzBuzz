@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/19 17:54:40 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/20 20:05:40 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
+/* s'occupe de l'executor */
+typedef struct s_exec
+{
+	t_env	*env;
+	int		*fd;
+	int		prev_fd;
+}	t_exec;
+
 /* Prototypes clear and free*/
 void	free_tokens(t_token *tokens);
 void	free_cmds(t_cmd *cmds);
@@ -75,6 +83,12 @@ void	env_unset(t_env **env, char *key);
 int		env_size(t_env *env);
 void	print_tokens(t_token *tokens);
 char	**env_to_array(t_env *env);
+int		ft_strcmp(const char *s1, const char *s2);
+
+/* Prototypes des builtins*/
+int		ft_echo(char **argv);
+int		ft_unset(t_env *env, char **argv);
+void	ft_exit(char **argv);
 
 /* Prototype du lexer */
 t_token	*lexer(char *input);
@@ -83,8 +97,14 @@ t_token	*lexer(char *input);
 t_cmd	*parser(t_token *tokens);
 
 /* Prototypes executor */
+void	exec_builtin_parent(t_exec *exec, t_cmd *cmd);
+int		exec_builtin(t_cmd *cmd, t_exec *exec);
+int		is_builtin(t_cmd *cmd);
+void	struct_exec_init(t_exec *exec, t_env *env, int *fd, int prev_fd);
+void	closing(t_cmd *cmd, int *prev_fd, int *fd);
+char	**find_path(char **envp);
 void	execution(t_cmd *cmd, t_env *env);
-void	prepare_exec(t_cmd *cmd, char **envp);
+char	*good_path(char *command, char **paths);
 void	free_split(char **split);
 void	print_error(char *command, int i);
 void	infile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp);
