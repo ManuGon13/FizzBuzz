@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:34:37 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/20 19:07:48 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/20 19:09:29 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ char	*extract_value(char *arg)
 	if (equal)
 		return(ft_strdup(equal + 1));
 	else
-		return(ft_strdup(arg));
+		return(NULL);
 }
