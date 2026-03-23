@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 17:15:53 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/20 18:27:53 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:41:32 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	ft_cd(t_cmd *cmd, t_env *env)
 		if (!path)
 		{
 			ft_printf("cd: HOME not set\n");
-			return;
+			return ;
 		}
 	}
 	res = chdir(path);
 	if (res != 0)
-			perror("cd");
+		perror("cd");
 }
