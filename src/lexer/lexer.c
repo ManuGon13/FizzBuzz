@@ -6,58 +6,24 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:25:40 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/16 16:56:43 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/23 19:24:06 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	token_add_back(t_token **list, t_token *new)
-{
-	t_token	*tmp;
-
-	if (!new)
-		return ;
-	if (!*list)
-	{
-		*list = new;
-		return ;
-	}
-	tmp = *list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-
-t_token	*token_new(char *value, t_token_type type)
-{
-	t_token	*token;
-
-	if (!value)
-		return (NULL);
-	token = malloc(sizeof(t_token));
-	if (!token)
-	{
-		free(value);
-		return (NULL);
-	}
-	token->value = value;
-	token->type = type;
-	token->next = NULL;
-	return (token);
-}
-
 static int	read_word(char *input, int *i, t_token **tokens)
 {
 	int		start;
+	int		end;
 	char	*word;
 	t_token	*new_tok;
 
 	start = *i;
-	while (input[*i] && input[*i] != ' ' && input[*i] != '|'
-		&& input[*i] != '<' && input[*i] != '>')
-		(*i)++;
-	word = ft_substr(input, (unsigned int)start, (size_t)(*i - start));
+	end = check_quotes(input, i);
+	word = ft_substr(input, start, end - start);
+	if (!word)
+		return (0);
 	new_tok = token_new(word, WORD);
 	if (!new_tok)
 		return (0);
@@ -92,29 +58,42 @@ static int	handle_operator(char *input, int *i, t_token **tokens)
 	return (1);
 }
 
-t_token	*lexer(char *input)
+int	which_token(char *input, t_token **tokens)
 {
-	int		i;
-	t_token	*tokens;
+	int	i;
 
-	if (!input)
-		return (NULL);
 	i = 0;
-	tokens = NULL;
 	while (input[i])
 	{
 		if (input[i] == ' ')
 			i++;
 		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		{
-			if (!handle_operator(input, &i, &tokens))
-				return (free_tokens(tokens), NULL);
+			if (!handle_operator(input, &i, tokens))
+				return (free_tokens(*tokens), 1);
 		}
 		else
 		{
-			if (!read_word(input, &i, &tokens))
-				return (free_tokens(tokens), NULL);
+			if (!read_word(input, &i, tokens))
+				return (free_tokens(*tokens), 1);
 		}
 	}
+	return (0);
+}
+
+t_token	*lexer(char *input)
+{
+	t_token	*tokens;
+
+	if (!input)
+		return (NULL);
+	if (has_unclosed_quote(input))
+	{
+		printf("syntax error: unclosed quote\n");
+		return (NULL);
+	}
+	tokens = NULL;
+	if (which_token(input, &tokens))
+		return (NULL);
 	return (tokens);
 }

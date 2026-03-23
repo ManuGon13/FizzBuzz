@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/20 20:05:40 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/23 19:29:14 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+/* Définie les types de tokens dans tout le projet */
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC
+}	t_token_type;
 
 /* représente les éléments du lexer */
 typedef struct s_token
@@ -89,11 +100,23 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_echo(char **argv);
 int		ft_unset(t_env *env, char **argv);
 void	ft_exit(char **argv);
+int		ft_env(t_env *env);
+int		ft_cd(t_cmd *cmd, t_env *env);
+int		ft_pwd(void);
 
 /* Prototype du lexer */
+int		check_quotes(char *input, int *i);
+int		has_unclosed_quote(char *input);
+void	token_add_back(t_token **list, t_token *new);
+t_token	*token_new(char *value, t_token_type type);
 t_token	*lexer(char *input);
 
 /* Prototype parser */
+void	add_arg(t_cmd *cmd, char *arg);
+t_cmd	*new_cmd(void);
+int		token_word(char *value, t_cmd *cmd, t_cmd *start);
+int		token_pipe(t_cmd **cmd, t_cmd *start);
+char	*remove_quotes(char *str);
 t_cmd	*parser(t_token *tokens);
 
 /* Prototypes executor */
@@ -109,16 +132,5 @@ void	free_split(char **split);
 void	print_error(char *command, int i);
 void	infile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp);
 void	outfile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp);
-
-/* Définie les types de tokens dans tout le projet */
-typedef enum e_token_type
-{
-	WORD,
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-	APPEND,
-	HEREDOC
-}	t_token_type;
 
 #endif

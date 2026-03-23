@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/19 16:38:00 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/23 17:56:46 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_env *env)
 	free(line);
 	cmds = parser(tokens);
 	free_tokens(tokens);
+	if (!cmds)
+		return ;
 	execution(cmds, env);
 	free_cmds(cmds);
 }
