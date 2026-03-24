@@ -6,7 +6,7 @@
 /*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 18:06:38 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/23 20:06:42 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/24 17:34:32 by egonin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,18 @@ static char	*replace_var(char *input, t_env *env, int i, int var_len)
 	char	*result;
 
 	var_name = ft_substr(input, i + 1, var_len);
+	if (!var_name)
+		return (NULL);
 	value = get_env_value(env, var_name);
 	if (!value)
 		value = "";
 	tmp = ft_substr(input, 0, i);
+	if (!tmp)
+		return (free(var_name), NULL);
 	result = ft_strjoin(tmp, value);
 	free(tmp);
+	if (!result)
+		return (free(var_name), NULL);
 	tmp = result;
 	result = ft_strjoin(tmp, input + i + 1 + var_len);
 	free(tmp);
@@ -51,7 +57,24 @@ static char	*replace_var(char *input, t_env *env, int i, int var_len)
 	return (result);
 }
 
-char	*expand_variables(char *input, t_env *env)
+static char	*expand_last_status_var(char *input, int i, int last_status)
+{
+	char	*value;
+	char	*tmp;
+	char	*result;
+
+	value = ft_itoa(last_status);
+	if (!value)
+		return (NULL);
+	tmp = ft_substr(input, 0, i);
+	if (!tmp)
+		return (free(value), NULL);
+	result = ft_strjoin(tmp, value);
+	free(tmp);
+	return (result);
+}
+
+char	*expand_variables(char *input, t_env *env, int last_status)
 {
 	int		i;
 	int		var_len;
@@ -61,6 +84,8 @@ char	*expand_variables(char *input, t_env *env)
 	{
 		if (input[i] == '$')
 		{
+			if (input[i + 1] == '?')
+				return (expand_last_status_var(input, i, last_status));
 			var_len = get_var_len(input, i);
 			if (var_len == 0)
 				return (ft_strdup(input));
