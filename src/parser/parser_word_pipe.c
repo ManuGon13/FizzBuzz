@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 19:26:24 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/23 19:28:27 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 19:06:11 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ int	token_word(char *value, t_cmd *cmd, t_cmd *start)
 		free_cmds(start);
 		return (1);
 	}
-	add_arg(cmd, clean);
+	if (!add_arg(cmd, clean))
+	{
+		perror("malloc");
+		free(clean);
+		free_cmds(start);
+		return (1);
+	}
 	free(clean);
 	return (0);
 }

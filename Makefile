@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/23 19:27:48 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/03/24 18:41:56 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRCS		= src/main.c \
 			src/execution/execution_builtins.c \
 			src/execution/execution_redirection_builtin.c \
 			src/execution/execution_struct.c \
+			src/execution/execution_process.c \
+			src/execution/execution_dup2_fail.c \
 			src/env/env_init.c \
 			src/env/env_utils.c \
 			src/env/env_utils2.c \
@@ -35,7 +37,9 @@ SRCS		= src/main.c \
 			src/builtins/ft_unset.c \
 			src/builtins/ft_cd.c \
 			src/builtins/ft_env.c \
-			src/builtins/ft_pwd.c
+			src/builtins/ft_pwd.c \
+			src/builtins/ft_export/ft_export.c \
+			src/builtins/ft_export/ft_export_utils.c
 
 OBJ_DIR		= obj
 OBJS		= $(SRCS:src/%.c=$(OBJ_DIR)/%.o)

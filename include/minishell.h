@@ -6,13 +6,14 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/23 19:29:14 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 19:06:13 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <signal.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdlib.h>
@@ -88,7 +89,7 @@ t_env	*env_new(char *key, char *value);
 t_env	*env_init(char **envp);
 void	env_add_back(t_env **env, t_env *new);
 char	*get_env_value(t_env *env, const char *key);
-void	env_set(t_env **env, char *key, char *value);
+void	env_set(t_env **env, const char *key, const char *value);
 void	env_delone(t_env *node);
 void	env_unset(t_env **env, char *key);
 int		env_size(t_env *env);
@@ -98,11 +99,13 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 /* Prototypes des builtins*/
 int		ft_echo(char **argv);
-int		ft_unset(t_env *env, char **argv);
+int		ft_unset(t_env **env, char **argv);
 void	ft_exit(char **argv);
 int		ft_env(t_env *env);
 int		ft_cd(t_cmd *cmd, t_env *env);
 int		ft_pwd(void);
+void	print_export(t_env *env);
+int		ft_export(t_cmd *cmd, t_env **env);
 
 /* Prototype du lexer */
 int		check_quotes(char *input, int *i);
@@ -112,7 +115,7 @@ t_token	*token_new(char *value, t_token_type type);
 t_token	*lexer(char *input);
 
 /* Prototype parser */
-void	add_arg(t_cmd *cmd, char *arg);
+int		add_arg(t_cmd *cmd, char *arg);
 t_cmd	*new_cmd(void);
 int		token_word(char *value, t_cmd *cmd, t_cmd *start);
 int		token_pipe(t_cmd **cmd, t_cmd *start);
@@ -120,6 +123,11 @@ char	*remove_quotes(char *str);
 t_cmd	*parser(t_token *tokens);
 
 /* Prototypes executor */
+void	process_exec(t_exec *exec, t_cmd *cmd);
+void	dup2_or_fail(int oldfd, int newfd, char **envp, int *fds_to_close);
+void	process_outfile_next(t_exec *exec, t_cmd *cmd, char **envp);
+void	finish_execution(t_exec *exec, t_cmd *cmd, char **envp);
+void	prepare_exec(t_cmd *cmd, char **envp);
 void	exec_builtin_parent(t_exec *exec, t_cmd *cmd);
 int		exec_builtin(t_cmd *cmd, t_exec *exec);
 int		is_builtin(t_cmd *cmd);

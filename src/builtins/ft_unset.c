@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 16:37:33 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/20 19:26:58 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 17:15:50 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_env	*free_node(t_env *current, t_env **env, t_env *prev)
 	return (next);
 }
 
-int	ft_unset(t_env *env, char **argv)
+int	ft_unset(t_env **env, char **argv)
 {
 	int		i;
 	t_env	*prev;
@@ -37,11 +37,11 @@ int	ft_unset(t_env *env, char **argv)
 	while (argv[i])
 	{
 		prev = NULL;
-		current = env;
+		current = *env;
 		while (current)
 		{
 			if (!ft_strcmp(argv[i], current->key))
-				current = free_node(current, &env, prev);
+				current = free_node(current, env, prev);
 			else
 			{
 				prev = current;

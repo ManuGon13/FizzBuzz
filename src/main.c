@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/23 17:56:46 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 17:03:47 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_env *env)
 	free_cmds(cmds);
 }
 
+void	handle_signal(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
@@ -36,14 +45,13 @@ int	main(int ac, char **av, char **envp)
 	tokens = NULL;
 	cmds = NULL;
 	env = env_init(envp);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-		{
-			printf("exit\n");
 			break ;
-		}
 		if (*line)
 			add_history(line);
 		minishell(line, tokens, cmds, env);

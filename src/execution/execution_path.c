@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 19:07:27 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/20 20:05:58 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 18:15:33 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	**find_path(char **envp)
 {
 	char	**paths;
 
+	if (!envp)
+		return (NULL);
 	while (*envp)
 	{
 		if (ft_strncmp(*envp, "PATH=", 5) == 0)
@@ -40,8 +42,12 @@ char	*good_path(char *command, char **paths)
 	while (*paths)
 	{
 		temp = ft_strjoin(*paths, "/");
+		if (!temp)
+			return (NULL);
 		path = ft_strjoin(temp, command);
 		free(temp);
+		if (!path)
+			return (NULL);
 		if (access(path, X_OK) == 0)
 			return (path);
 		free(path);

@@ -6,13 +6,13 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:33:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/20 20:07:13 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 18:59:36 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	apply_redirections(t_cmd *cmd)
+static int	apply_redirections(t_cmd *cmd)
 {
 	int	infile;
 	int	outfile;
@@ -20,7 +20,10 @@ void	apply_redirections(t_cmd *cmd)
 	if (cmd->infile)
 	{
 		infile = open(cmd->infile, O_RDONLY);
-		dup2(infile, STDIN_FILENO);
+		if (infile < 0)
+			return (perror(cmd->infile), 0);
+		if (dup2(infile, STDIN_FILENO) < 0)
+			return (close(infile), perror("dup2"), 0);
 		close(infile);
 	}
 	if (cmd->outfile)
@@ -29,9 +32,37 @@ void	apply_redirections(t_cmd *cmd)
 			outfile = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else
 			outfile = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		dup2(outfile, STDOUT_FILENO);
+		if (outfile < 0)
+			return (perror(cmd->outfile), 0);
+		if (dup2(outfile, STDOUT_FILENO) < 0)
+			return (close(outfile), perror("dup2"), 0);
 		close(outfile);
 	}
+	return (1);
+}
+
+static int	backup_stdio(int *stdin_backup, int *stdout_backup)
+{
+	*stdin_backup = dup(STDIN_FILENO);
+	if (*stdin_backup < 0)
+		return (perror("dup"), 0);
+	*stdout_backup = dup(STDOUT_FILENO);
+	if (*stdout_backup < 0)
+	{
+		close(*stdin_backup);
+		return (perror("dup"), 0);
+	}
+	return (1);
+}
+
+static void	restore_stdio(int stdin_backup, int stdout_backup)
+{
+	if (dup2(stdin_backup, STDIN_FILENO) < 0)
+		perror("dup2");
+	if (dup2(stdout_backup, STDOUT_FILENO) < 0)
+		perror("dup2");
+	close(stdin_backup);
+	close(stdout_backup);
 }
 
 void	exec_builtin_parent(t_exec *exec, t_cmd *cmd)
@@ -39,12 +70,10 @@ void	exec_builtin_parent(t_exec *exec, t_cmd *cmd)
 	int	stdin_backup;
 	int	stdout_backup;
 
-	stdin_backup = dup(STDIN_FILENO);
-	stdout_backup = dup(STDOUT_FILENO);
-	apply_redirections(cmd);
+	if (!backup_stdio(&stdin_backup, &stdout_backup))
+		return ;
+	if (!apply_redirections(cmd))
+		return (restore_stdio(stdin_backup, stdout_backup));
 	exec_builtin(cmd, exec);
-	dup2(stdin_backup, STDIN_FILENO);
-	dup2(stdout_backup, STDOUT_FILENO);
-	close(stdin_backup);
-	close(stdout_backup);
+	restore_stdio(stdin_backup, stdout_backup);
 }

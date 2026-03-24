@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/23 19:26:10 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/24 19:06:10 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ static int	count_argv(char **argv)
 	return (len);
 }
 
-void	add_arg(t_cmd *cmd, char *arg)
+int	add_arg(t_cmd *cmd, char *arg)
 {
 	char	**new_argv;
 	int		len;
 	int		i;
 
 	if (!cmd || !arg)
-		return ;
+		return (0);
 	len = count_argv(cmd->argv);
 	new_argv = malloc((len + 2) * sizeof(char *));
 	if (!new_argv)
-		return ;
+		return (0);
 	i = 0;
 	while (i < len)
 	{
@@ -45,10 +45,11 @@ void	add_arg(t_cmd *cmd, char *arg)
 	}
 	new_argv[i] = ft_strdup(arg);
 	if (!new_argv[i])
-		return (free(new_argv), (void)0);
+		return (free(new_argv), 0);
 	new_argv[i + 1] = NULL;
 	free(cmd->argv);
 	cmd->argv = new_argv;
+	return (1);
 }
 
 t_cmd	*new_cmd(void)
