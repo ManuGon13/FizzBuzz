@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:33:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/24 18:59:36 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/25 19:04:06 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,17 @@ static void	restore_stdio(int stdin_backup, int stdout_backup)
 	close(stdout_backup);
 }
 
-void	exec_builtin_parent(t_exec *exec, t_cmd *cmd)
+int	exec_builtin_parent(t_exec *exec, t_cmd *cmd)
 {
 	int	stdin_backup;
 	int	stdout_backup;
+	int	status;
 
 	if (!backup_stdio(&stdin_backup, &stdout_backup))
-		return ;
+		return (1);
 	if (!apply_redirections(cmd))
-		return (restore_stdio(stdin_backup, stdout_backup));
-	exec_builtin(cmd, exec);
+		return (restore_stdio(stdin_backup, stdout_backup), 1);
+	status = exec_builtin(cmd, exec);
 	restore_stdio(stdin_backup, stdout_backup);
+	return (status);
 }

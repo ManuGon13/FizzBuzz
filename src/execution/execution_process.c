@@ -6,70 +6,38 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 18:08:08 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/24 19:08:34 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/25 19:55:17 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prepare_exec(t_cmd *cmd, char **envp)
+static void	process_outfile(t_exec *exec, t_cmd *cmd, char **envp)
 {
-	char	**path;
-	char	*tmp;
+	int	outfile;
 
-	if (!cmd->argv || !cmd->argv[0])
-		return ;
-	path = find_path(envp);
-	tmp = good_path(cmd->argv[0], path);
-	if (path != NULL)
-		free_split(path);
-	if (tmp == NULL)
-	{
-		print_error(cmd->argv[0], 1);
-		exit(127);
-	}
-	free(cmd->argv[0]);
-	cmd->argv[0] = tmp;
-}
-
-void	finish_execution(t_exec *exec, t_cmd *cmd, char **envp)
-{
-	int	exit_code;
-
-	if (is_builtin(cmd))
-	{
-		exit_code = exec_builtin(cmd, exec);
-		free_split(envp);
-		exit(exit_code);
-	}
+	if (cmd->append)
+		outfile = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
+		outfile = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (outfile == -1)
 	{
-		prepare_exec(cmd, envp);
-		execve(cmd->argv[0], cmd->argv, envp);
-		perror("execve");
-		free_split(envp);
+		outfile_fail(cmd, exec->fd, exec->prev_fd, envp);
 		exit(1);
+	}
+	dup2_or_fail(outfile, STDOUT_FILENO, envp, (int [2]){outfile, -1});
+	close(outfile);
+	if (cmd->next)
+	{
+		close(exec->fd[1]);
+		close(exec->fd[0]);
 	}
 }
 
 void	process_outfile_next(t_exec *exec, t_cmd *cmd, char **envp)
 {
-	int	outfile;
-
 	if (cmd->outfile)
-	{
-		if (cmd->append)
-			outfile = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			outfile = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (outfile == -1)
-		{
-			outfile_fail(cmd, exec->fd, exec->prev_fd, envp);
-			exit(1);
-		}
-		dup2_or_fail(outfile, STDOUT_FILENO, envp, (int [2]){outfile, -1});
-		close(outfile);
-	}
+		process_outfile(exec, cmd, envp);
 	else if (cmd->next)
 	{
 		dup2_or_fail(exec->fd[1], STDOUT_FILENO, envp,

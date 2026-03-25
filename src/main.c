@@ -6,21 +6,21 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/24 17:03:47 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/25 17:27:05 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_env *env)
+void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_shell *shell)
 {
 	tokens = lexer(line);
 	free(line);
-	cmds = parser(tokens);
+	cmds = parser(tokens, shell);
 	free_tokens(tokens);
 	if (!cmds)
 		return ;
-	execution(cmds, env);
+	execution(cmds, shell);
 	free_cmds(cmds);
 }
 
@@ -38,13 +38,14 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
-	t_env	*env;
+	t_shell	shell;
 
 	(void)ac;
 	(void)av;
 	tokens = NULL;
 	cmds = NULL;
-	env = env_init(envp);
+	shell.env = env_init(envp);
+	shell.exit_status = 0;
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -54,9 +55,9 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (*line)
 			add_history(line);
-		minishell(line, tokens, cmds, env);
+		minishell(line, tokens, cmds, &shell);
 	}
 	clear_history();
-	free_env(env);
+	free_env(shell.env);
 	return (0);
 }

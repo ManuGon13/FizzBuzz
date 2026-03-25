@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egonin <egonin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 19:48:41 by egonin            #+#    #+#             */
-/*   Updated: 2025/11/11 11:39:59 by egonin           ###   ########.fr       */
+/*   Updated: 2026/03/25 20:00:37 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,17 @@ char	*word_dup(char const *str, char c)
 	return (word);
 }
 
+static char	**free_split_tab(char **tab, int size)
+{
+	while (size > 0)
+	{
+		size--;
+		free(tab[size]);
+	}
+	free(tab);
+	return (NULL);
+}
+
 char	**ft_split(char const *str, char c)
 {
 	int		i;
@@ -79,6 +90,8 @@ char	**ft_split(char const *str, char c)
 		if (str[i])
 		{
 			tab[j] = word_dup(&str[i], c);
+			if (!tab[j])
+				return (free_split_tab(tab, j));
 			j++;
 			while (str[i] && is_sep(str[i], c) == 0)
 				i++;

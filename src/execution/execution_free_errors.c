@@ -47,8 +47,10 @@ void	infile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp)
 	print_error(cmd->infile, 2);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	close(fd[0]);
-	close(fd[1]);
+	if (fd && fd[0] >= 0)
+		close(fd[0]);
+	if (fd && fd[1] >= 0)
+		close(fd[1]);
 	free_split(envp);
 	exit(1);
 }
@@ -58,8 +60,10 @@ void	outfile_fail(t_cmd *cmd, int *fd, int prev_fd, char **envp)
 	print_error(cmd->outfile, 3);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	close(fd[0]);
-	close(fd[1]);
+	if (fd && fd[0] >= 0)
+		close(fd[0]);
+	if (fd && fd[1] >= 0)
+		close(fd[1]);
 	free_split(envp);
 	exit(1);
 }

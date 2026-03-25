@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 19:07:27 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/24 18:15:33 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/25 19:29:46 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,22 @@ char	**find_path(char **envp)
 	return (paths);
 }
 
+static char	*handle_slash(char *command)
+{
+	if (access(command, F_OK) != 0)
+		return (NULL);
+	if (access(command, X_OK) != 0)
+		return ((char *)-1);
+	return (ft_strdup(command));
+}
+
 char	*good_path(char *command, char **paths)
 {
 	char	*path;
 	char	*temp;
 
-	if (access(command, X_OK) == 0)
-		return (ft_strdup(command));
+	if (ft_strchr(command, '/'))
+		return (handle_slash(command));
 	if (!paths)
 		return (NULL);
 	while (*paths)

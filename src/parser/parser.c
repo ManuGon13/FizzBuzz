@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/24 19:06:10 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/25 17:17:59 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 	}
 }
 
-t_cmd	*parser(t_token *tokens)
+t_cmd	*parser(t_token *tokens, t_shell *shell)
 {
 	t_cmd	*cmd;
 	t_cmd	*tmp;
@@ -101,7 +101,7 @@ t_cmd	*parser(t_token *tokens)
 	{
 		if (tokens->type == WORD)
 		{
-			if (token_word(tokens->value, cmd, tmp))
+			if (token_word(tokens->value, cmd, tmp, shell))
 				return (NULL);
 		}
 		else if (tokens->type == PIPE)

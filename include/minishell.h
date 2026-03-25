@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/24 19:06:13 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/25 19:58:16 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,21 @@ typedef struct s_exec
 	int		prev_fd;
 }	t_exec;
 
+/* s'occupe des expansions */
+typedef struct s_expand
+{
+	t_env	*env;
+	int		last_status;
+	int		i;
+	char	quote;
+}	t_expand;
+
+/* Prototypes expansion */
+int		get_var_len(char *input, int i);
+int		is_var_char(char c);
+void	update_quote(char c, char *quote);
+char	*expand_variables(char *input, t_env *env, int last_status);
+
 /* Prototypes clear and free*/
 void	free_tokens(t_token *tokens);
 void	free_cmds(t_cmd *cmds);
@@ -117,24 +132,26 @@ t_token	*lexer(char *input);
 /* Prototype parser */
 int		add_arg(t_cmd *cmd, char *arg);
 t_cmd	*new_cmd(void);
-int		token_word(char *value, t_cmd *cmd, t_cmd *start);
+int		token_word(char *value, t_cmd *cmd, t_cmd *start, t_shell *shell);
 int		token_pipe(t_cmd **cmd, t_cmd *start);
 char	*remove_quotes(char *str);
-t_cmd	*parser(t_token *tokens);
+t_cmd	*parser(t_token *tokens, t_shell *shell);
 
 /* Prototypes executor */
+int		get_exit_status(int status);
+int		ft_wait(pid_t last_pid);
 void	process_exec(t_exec *exec, t_cmd *cmd);
 void	dup2_or_fail(int oldfd, int newfd, char **envp, int *fds_to_close);
 void	process_outfile_next(t_exec *exec, t_cmd *cmd, char **envp);
 void	finish_execution(t_exec *exec, t_cmd *cmd, char **envp);
 void	prepare_exec(t_cmd *cmd, char **envp);
-void	exec_builtin_parent(t_exec *exec, t_cmd *cmd);
+int		exec_builtin_parent(t_exec *exec, t_cmd *cmd);
 int		exec_builtin(t_cmd *cmd, t_exec *exec);
 int		is_builtin(t_cmd *cmd);
 void	struct_exec_init(t_exec *exec, t_env *env, int *fd, int prev_fd);
 void	closing(t_cmd *cmd, int *prev_fd, int *fd);
 char	**find_path(char **envp);
-void	execution(t_cmd *cmd, t_env *env);
+void	execution(t_cmd *cmd, t_shell *shell);
 char	*good_path(char *command, char **paths);
 void	free_split(char **split);
 void	print_error(char *command, int i);
