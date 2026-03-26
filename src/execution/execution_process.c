@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 18:08:08 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/25 19:55:17 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/26 18:36:22 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,13 @@ static void	process_stdin(t_exec *exec, t_cmd *cmd, char **envp)
 {
 	int	infile;
 
-	if (cmd->infile)
+	if (cmd->heredoc_fd != -1)
+	{
+		dup2_or_fail(cmd->heredoc_fd, STDIN_FILENO, envp,
+			(int [2]){cmd->heredoc_fd, -1});
+		close(cmd->heredoc_fd);
+	}
+	else if (cmd->infile)
 	{
 		infile = open(cmd->infile, O_RDONLY);
 		if (infile == -1)

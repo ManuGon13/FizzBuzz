@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 18:24:23 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/23 18:24:48 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/26 18:10:31 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,21 @@ char	*remove_quotes(char *str)
 	}
 	res[j] = '\0';
 	return (res);
+}
+
+t_cmd	*new_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->argv = NULL;
+	cmd->infile = NULL;
+	cmd->outfile = NULL;
+	cmd->append = 0;
+	cmd->heredoc_delim = NULL;
+	cmd->heredoc_fd = -1;
+	cmd->next = NULL;
+	return (cmd);
 }

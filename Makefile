@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/25 19:56:43 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/03/26 17:34:43 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,12 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -I./include -I./libft
 
 SRCS		= src/main.c \
+			src/clear_and_free.c \
+			src/heredoc/heredoc_handling.c \
+			src/heredoc/heredoc_utils.c \
 			src/lexer/lexer.c \
 			src/lexer/lexer_quotes.c \
 			src/lexer/lexer_utils.c \
-			src/clear_and_free.c \
 			src/execution/execution_free_errors.c \
 			src/execution/execution.c \
 			src/execution/execution_path.c \

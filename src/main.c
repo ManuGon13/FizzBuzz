@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/25 17:27:05 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/26 18:38:36 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,18 @@ void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_shell *shell)
 	tokens = lexer(line);
 	free(line);
 	cmds = parser(tokens, shell);
-	free_tokens(tokens);
 	if (!cmds)
+	{
+		free_tokens(tokens);
 		return ;
+	}
+	if (prepare_heredocs(cmds, shell))
+	{
+		free_tokens(tokens);
+		free_cmds(cmds);
+		return ;
+	}
+	free_tokens(tokens);
 	execution(cmds, shell);
 	free_cmds(cmds);
 }

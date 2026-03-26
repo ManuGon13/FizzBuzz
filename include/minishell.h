@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/25 19:58:16 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/26 18:43:59 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ typedef struct s_cmd
 	char			**argv;
 	char			*infile;
 	char			*outfile;
+	char			*heredoc_delim;
+	int				heredoc_fd;
+	int				heredoc_expand;
 	int				append;
+	t_token			*tokens;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -87,6 +91,14 @@ typedef struct s_expand
 	int		i;
 	char	quote;
 }	t_expand;
+
+/* Prototypes heredoc */
+int		has_quotes(char *str);
+void	heredoc_sigint(int sig);
+int		prepare_cmd_heredocs(t_cmd *cmd, t_shell *shell);
+int		handle_heredoc(t_cmd *cmd, t_shell *shell);
+int		prepare_heredocs(t_cmd *cmd, t_shell *shell);
+void	handle_signal(int sig);
 
 /* Prototypes expansion */
 int		get_var_len(char *input, int i);

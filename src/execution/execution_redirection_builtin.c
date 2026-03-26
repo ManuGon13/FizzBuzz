@@ -6,18 +6,23 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:33:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/25 19:04:06 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/26 17:54:47 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	apply_redirections(t_cmd *cmd)
+static int	apply_stdin_redirection(t_cmd *cmd)
 {
 	int	infile;
-	int	outfile;
 
-	if (cmd->infile)
+	if (cmd->heredoc_delim)
+	{
+		if (dup2(cmd->heredoc_fd, STDIN_FILENO) < 0)
+			return (perror("dup2"), 0);
+		close(cmd->heredoc_fd);
+	}
+	else if (cmd->infile)
 	{
 		infile = open(cmd->infile, O_RDONLY);
 		if (infile < 0)
@@ -26,6 +31,15 @@ static int	apply_redirections(t_cmd *cmd)
 			return (close(infile), perror("dup2"), 0);
 		close(infile);
 	}
+	return (1);
+}
+
+static int	apply_redirections(t_cmd *cmd)
+{
+	int	outfile;
+
+	if (!apply_stdin_redirection(cmd))
+		return (0);
 	if (cmd->outfile)
 	{
 		if (cmd->append)
