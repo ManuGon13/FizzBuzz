@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:33:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 17:54:47 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:14:33 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static int	apply_stdin_redirection(t_cmd *cmd)
 {
 	int	infile;
 
-	if (cmd->heredoc_delim)
+	if (cmd->heredoc_fd >= 0)
 	{
 		if (dup2(cmd->heredoc_fd, STDIN_FILENO) < 0)
 			return (perror("dup2"), 0);
-		close(cmd->heredoc_fd);
+		close_heredoc_fd(&cmd->heredoc_fd);
 	}
 	else if (cmd->infile)
 	{
@@ -89,6 +89,13 @@ int	exec_builtin_parent(t_exec *exec, t_cmd *cmd)
 		return (1);
 	if (!apply_redirections(cmd))
 		return (restore_stdio(stdin_backup, stdout_backup), 1);
+	if (!ft_strcmp(cmd->argv[0], "exit") && (!cmd->argv[1]
+			|| cmd->argv[2] == NULL))
+	{
+		restore_stdio(stdin_backup, stdout_backup);
+		exec_builtin(cmd, exec);
+		return (1);
+	}
 	status = exec_builtin(cmd, exec);
 	restore_stdio(stdin_backup, stdout_backup);
 	return (status);

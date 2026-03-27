@@ -6,11 +6,19 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 16:32:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 16:28:27 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:03:21 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_heredoc_fd(int *fd)
+{
+	if (!fd || *fd < 0)
+		return ;
+	close(*fd);
+	*fd = -1;
+}
 
 void	free_tokens(t_token *tokens)
 {
@@ -34,8 +42,7 @@ void	free_cmds(t_cmd *cmds)
 		tmp = cmds->next;
 		free(cmds->infile);
 		free(cmds->outfile);
-		if (cmds->heredoc_fd > 0)
-			close(cmds->heredoc_fd);
+		close_heredoc_fd(&cmds->heredoc_fd);
 		free(cmds->heredoc_delim);
 		free_split(cmds->argv);
 		free(cmds);

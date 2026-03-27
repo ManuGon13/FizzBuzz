@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/26 18:43:59 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:33:28 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*expand_variables(char *input, t_env *env, int last_status);
 void	free_tokens(t_token *tokens);
 void	free_cmds(t_cmd *cmds);
 void	free_env(t_env *env);
+void	close_heredoc_fd(int *fd);
 
 /* Prototypes env */
 t_env	*env_new(char *key, char *value);
@@ -125,9 +126,10 @@ char	**env_to_array(t_env *env);
 int		ft_strcmp(const char *s1, const char *s2);
 
 /* Prototypes des builtins*/
+char	*extract_value(char *arg);
 int		ft_echo(char **argv);
 int		ft_unset(t_env **env, char **argv);
-void	ft_exit(char **argv);
+int		ft_exit(char **argv);
 int		ft_env(t_env *env);
 int		ft_cd(t_cmd *cmd, t_env *env);
 int		ft_pwd(void);
@@ -142,6 +144,7 @@ t_token	*token_new(char *value, t_token_type type);
 t_token	*lexer(char *input);
 
 /* Prototype parser */
+void	if_heredoc(t_token **tokens, t_cmd *cmd);
 int		add_arg(t_cmd *cmd, char *arg);
 t_cmd	*new_cmd(void);
 int		token_word(char *value, t_cmd *cmd, t_cmd *start, t_shell *shell);

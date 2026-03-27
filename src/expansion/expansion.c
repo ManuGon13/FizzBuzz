@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 16:59:42 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/25 19:46:15 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:31:07 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ static char	*expand_last_status_var(char *input, int i, int last_status)
 	if (!tmp)
 		return (free(value), free(input), NULL);
 	result = ft_strjoin(tmp, value);
+	free(tmp);
+	if (!result)
+		return (free(value), free(input), NULL);
+	tmp = result;
+	result = ft_strjoin(tmp, input + i + 2);
 	free(tmp);
 	free(value);
 	free(input);

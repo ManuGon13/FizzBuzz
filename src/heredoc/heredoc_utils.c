@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:33:44 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 18:43:59 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:03:23 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	prepare_cmd_heredocs(t_cmd *cmd, t_shell *shell)
 			fd = handle_heredoc(cmd, shell);
 			if (fd < 0)
 				return (shell->exit_status = 130, 1);
-			if (cmd->heredoc_fd != -1)
-				close(cmd->heredoc_fd);
+			close_heredoc_fd(&cmd->heredoc_fd);
 			cmd->heredoc_fd = fd;
 			tmp = tmp->next;
 		}

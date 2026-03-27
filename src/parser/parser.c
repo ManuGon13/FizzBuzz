@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/26 18:46:04 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 16:51:14 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,6 @@ int	add_arg(t_cmd *cmd, char *arg)
 	return (1);
 }
 
-void	if_heredoc(t_token **tokens, t_cmd *cmd)
-{
-	if (!(*tokens)->next || (*tokens)->next->type != WORD)
-		return ;
-	free(cmd->heredoc_delim);
-	cmd->heredoc_expand = !has_quotes((*tokens)->next->value);
-	cmd->heredoc_delim = remove_quotes((*tokens)->next->value);
-	*tokens = (*tokens)->next;
-}
-
 static void	handle_redir(t_cmd *cmd, t_token **tokens)
 {
 	if ((*tokens)->type == REDIR_IN)
@@ -85,35 +75,43 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 		if_heredoc(tokens, cmd);
 }
 
-t_cmd	*parser(t_token *tokens, t_shell *shell)
+static int	parse_loop(t_token *tokens, t_cmd **cmd, t_cmd *tmp, t_shell *shell)
 {
-	t_cmd	*cmd;
-	t_cmd	*tmp;
 	t_token	*start;
 
-	tmp = new_cmd();
-	if (!tmp)
-		return (NULL);
-	cmd = tmp;
 	start = tokens;
 	while (tokens)
 	{
 		if (tokens->type == WORD)
 		{
-			if (token_word(tokens->value, cmd, tmp, shell))
-				return (NULL);
+			if (token_word(tokens->value, *cmd, tmp, shell))
+				return (1);
 		}
 		else if (tokens->type == PIPE)
 		{
-			cmd->tokens = start;
-			if (token_pipe(&cmd, tmp))
-				return (NULL);
+			(*cmd)->tokens = start;
+			if (token_pipe(cmd, tmp))
+				return (1);
 			start = tokens->next;
 		}
 		else
-			handle_redir(cmd, &tokens);
+			handle_redir(*cmd, &tokens);
 		tokens = tokens->next;
 	}
-	cmd->tokens = start;
+	(*cmd)->tokens = start;
+	return (0);
+}
+
+t_cmd	*parser(t_token *tokens, t_shell *shell)
+{
+	t_cmd	*cmd;
+	t_cmd	*tmp;
+
+	tmp = new_cmd();
+	if (!tmp)
+		return (NULL);
+	cmd = tmp;
+	if (parse_loop(tokens, &cmd, tmp, shell))
+		return (NULL);
 	return (tmp);
 }

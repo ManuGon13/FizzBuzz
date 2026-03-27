@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 17:37:58 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/24 17:58:01 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:33:09 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,36 @@ char	*extract_key(char *arg)
 		return (ft_strdup(arg));
 }
 
-char	*extract_value(char *arg)
+static int	handle_export_arg(char *arg, t_env **env)
 {
-	char	*equal;
+	char	*key;
+	char	*value;
+	int	status;
 
-	equal = ft_strchr(arg, '=');
-	if (equal)
-		return (ft_strdup(equal + 1));
+	status = 0;
+	key = extract_key(arg);
+	value = extract_value(arg);
+	if (is_valid_identifier(key))
+		env_set(env, key, value);
 	else
-		return (NULL);
+	{
+		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putendl_fd("`: not a valid identifier", 2);
+		status = 1;
+	}
+	free(key);
+	free(value);
+	return (status);
 }
 
 int	ft_export(t_cmd *cmd, t_env **env)
 {
-	char	*arg;
-	char	*key;
-	char	*value;
 	int		i;
+	int		status;
 
 	i = 1;
+	status = 0;
 	if (!cmd->argv[1])
 	{
 		print_export(*env);
@@ -86,16 +97,9 @@ int	ft_export(t_cmd *cmd, t_env **env)
 	}
 	while (cmd->argv[i])
 	{
-		arg = cmd->argv[i];
-		key = extract_key(arg);
-		value = extract_value(arg);
-		if (is_valid_identifier(key))
-			env_set(env, key, value);
-		else
-			printf("export: `%s`: not a valid identifier\n", arg);
-		free(key);
-		free(value);
+		if (handle_export_arg(cmd->argv[i], env))
+			status = 1;
 		i++;
 	}
-	return (0);
+	return (status);
 }

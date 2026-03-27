@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 18:25:34 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/25 19:41:32 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:45:24 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ static pid_t	launch_command(t_exec *exec, t_cmd *cmd, int *fd)
 	return (pid1);
 }
 
+static int	exec_single_builtin(t_exec *exec, t_cmd *cmd, t_shell *shell)
+{
+	shell->exit_status = exec_builtin_parent(exec, cmd);
+	shell->env = exec->env;
+	return (1);
+}
+
 void	execution(t_cmd *cmd, t_shell *shell)
 {
 	int		fd[2];
@@ -57,11 +64,8 @@ void	execution(t_cmd *cmd, t_shell *shell)
 	fd[0] = -1;
 	fd[1] = -1;
 	struct_exec_init(&exec, shell->env, fd, STDIN_FILENO);
-	if (is_builtin(cmd) && !cmd->next)
-	{
-		shell->exit_status = exec_builtin_parent(&exec, cmd);
+	if (is_builtin(cmd) && !cmd->next && exec_single_builtin(&exec, cmd, shell))
 		return ;
-	}
 	while (cmd)
 	{
 		last_pid = launch_command(&exec, cmd, fd);

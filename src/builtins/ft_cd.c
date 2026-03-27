@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 16:14:58 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/23 19:25:08 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 17:34:23 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	ft_cd(t_cmd *cmd, t_env *env)
 	int		res;
 
 	path = NULL;
+	if (cmd->argv[1] && cmd->argv[2])
+		return (ft_putendl_fd("cd: too many arguments", 2), 1);
 	if (cmd->argv[1] && !ft_strcmp(cmd->argv[1], "-"))
 	{
 		if (cd_minus(&path, env))
@@ -76,11 +78,8 @@ int	ft_cd(t_cmd *cmd, t_env *env)
 	}
 	else if (cmd->argv[1])
 		path = cmd->argv[1];
-	else
-	{
-		if (home_not_set(&path, env))
-			return (1);
-	}
+	else if (home_not_set(&path, env))
+		return (1);
 	res = chdir(path);
 	if (res != 0)
 	{

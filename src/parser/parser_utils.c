@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 18:24:23 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 18:10:31 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/03/27 16:51:25 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,14 @@ t_cmd	*new_cmd(void)
 	cmd->heredoc_fd = -1;
 	cmd->next = NULL;
 	return (cmd);
+}
+
+void	if_heredoc(t_token **tokens, t_cmd *cmd)
+{
+	if (!(*tokens)->next || (*tokens)->next->type != WORD)
+		return ;
+	free(cmd->heredoc_delim);
+	cmd->heredoc_expand = !has_quotes((*tokens)->next->value);
+	cmd->heredoc_delim = remove_quotes((*tokens)->next->value);
+	*tokens = (*tokens)->next;
 }
