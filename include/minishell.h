@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/04/03 15:12:22 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/03 16:17:31 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	dup2_or_fail(int oldfd, int newfd, char **envp, int *fds_to_close);
 void	process_outfile_next(t_exec *exec, t_cmd *cmd, char **envp);
 void	finish_execution(t_exec *exec, t_cmd *cmd, char **envp);
 void	prepare_exec(t_cmd *cmd, char **envp);
+int		apply_stdin_redirection(t_cmd *cmd);
 int		exec_builtin_parent(t_exec *exec, t_cmd *cmd);
 int		exec_builtin(t_cmd *cmd, t_exec *exec);
 int		is_builtin(t_cmd *cmd);

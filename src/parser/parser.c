@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/27 16:51:14 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/03 15:52:04 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 		if (!(*tokens)->next || (*tokens)->next->type != WORD)
 			return ;
 		free(cmd->infile);
-		cmd->infile = ft_strdup((*tokens)->next->value);
+		cmd->infile = remove_quotes((*tokens)->next->value);
 		*tokens = (*tokens)->next;
 	}
 	else if ((*tokens)->type == REDIR_OUT || (*tokens)->type == APPEND)
@@ -67,7 +67,7 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 		if (!(*tokens)->next || (*tokens)->next->type != WORD)
 			return ;
 		free(cmd->outfile);
-		cmd->outfile = ft_strdup((*tokens)->next->value);
+		cmd->outfile = remove_quotes((*tokens)->next->value);
 		cmd->append = ((*tokens)->type == APPEND);
 		*tokens = (*tokens)->next;
 	}

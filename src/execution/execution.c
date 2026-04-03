@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 18:25:34 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/03 15:11:35 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/03 16:19:30 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	exec_single_builtin(t_exec *exec, t_cmd *cmd, t_shell *shell)
 	return (1);
 }
 
-static int	launch_all_commands(t_exec *exec, t_cmd *cmd, int *fd, pid_t *last_pid)
+static int	all_commands(t_exec *exec, t_cmd *cmd, int *fd, pid_t *last_pid)
 {
 	while (cmd)
 	{
@@ -80,7 +80,7 @@ void	execution(t_cmd *cmd, t_shell *shell)
 		return ;
 	signal(SIGINT, handle_exec_signal);
 	signal(SIGQUIT, SIG_IGN);
-	if (!launch_all_commands(&exec, cmd, fd, &last_pid))
+	if (!all_commands(&exec, cmd, fd, &last_pid))
 	{
 		shell->exit_status = 1;
 		signal(SIGINT, handle_signal);

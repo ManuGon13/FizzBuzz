@@ -28,9 +28,9 @@ void	minishell(char *line, t_token *tokens, t_cmd *cmds, t_shell *shell)
 		free_cmds(cmds);
 		return ;
 	}
-	free_tokens(tokens);
 	execution(cmds, shell);
 	free_cmds(cmds);
+	free_tokens(tokens);
 }
 
 void	handle_signal(int sig)
