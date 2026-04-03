@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 18:25:34 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/27 17:45:24 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/03 15:11:35 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ static int	exec_single_builtin(t_exec *exec, t_cmd *cmd, t_shell *shell)
 	return (1);
 }
 
+static int	launch_all_commands(t_exec *exec, t_cmd *cmd, int *fd, pid_t *last_pid)
+{
+	while (cmd)
+	{
+		*last_pid = launch_command(exec, cmd, fd);
+		if (*last_pid < 0)
+			return (0);
+		cmd = cmd->next;
+	}
+	return (1);
+}
+
 void	execution(t_cmd *cmd, t_shell *shell)
 {
 	int		fd[2];
@@ -66,15 +78,16 @@ void	execution(t_cmd *cmd, t_shell *shell)
 	struct_exec_init(&exec, shell->env, fd, STDIN_FILENO);
 	if (is_builtin(cmd) && !cmd->next && exec_single_builtin(&exec, cmd, shell))
 		return ;
-	while (cmd)
+	signal(SIGINT, handle_exec_signal);
+	signal(SIGQUIT, SIG_IGN);
+	if (!launch_all_commands(&exec, cmd, fd, &last_pid))
 	{
-		last_pid = launch_command(&exec, cmd, fd);
-		if (last_pid < 0)
-		{
-			shell->exit_status = 1;
-			return ;
-		}
-		cmd = cmd->next;
+		shell->exit_status = 1;
+		signal(SIGINT, handle_signal);
+		signal(SIGQUIT, SIG_IGN);
+		return ;
 	}
 	shell->exit_status = ft_wait(last_pid);
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 }

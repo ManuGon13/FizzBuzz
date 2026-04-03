@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/03/27 17:33:28 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/03 15:12:22 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ char	*remove_quotes(char *str);
 t_cmd	*parser(t_token *tokens, t_shell *shell);
 
 /* Prototypes executor */
+void	handle_exec_signal(int sig);
 int		get_exit_status(int status);
 int		ft_wait(pid_t last_pid);
 void	process_exec(t_exec *exec, t_cmd *cmd);

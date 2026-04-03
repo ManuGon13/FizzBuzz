@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 17:37:58 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/27 17:33:09 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/03 14:56:24 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	handle_export_arg(char *arg, t_env **env)
 {
 	char	*key;
 	char	*value;
-	int	status;
+	int		status;
 
 	status = 0;
 	key = extract_key(arg);

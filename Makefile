@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/03/26 17:34:43 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/04/03 15:13:32 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS		= src/main.c \
 			src/lexer/lexer.c \
 			src/lexer/lexer_quotes.c \
 			src/lexer/lexer_utils.c \
+			src/execution/execution_signal.c \
 			src/execution/execution_free_errors.c \
 			src/execution/execution.c \
 			src/execution/execution_path.c \
