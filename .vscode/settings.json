@@ -1,0 +1,4 @@
+{
+  "norminette.command": "/home/manug/.local/bin/norminette",
+  "norminette.fileregex": ".*\\.[ch]$"
+}
