@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:01:53 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 18:43:59 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/09 18:01:01 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static int	heredoc_loop(t_cmd *cmd, t_shell *shell, int write_fd)
 int	handle_heredoc(t_cmd *cmd, t_shell *shell)
 {
 	int		fd[2];
+	int		status;
 	pid_t	pid;
 
 	if (pipe(fd) < 0)
@@ -84,7 +85,9 @@ int	handle_heredoc(t_cmd *cmd, t_shell *shell)
 		signal(SIGINT, heredoc_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		close(fd[0]);
-		exit(heredoc_loop(cmd, shell, fd[1]));
+		status = heredoc_loop(cmd, shell, fd[1]);
+		close(fd[1]);
+		exit(status);
 	}
 	return (heredoc_parent_wait(pid, fd));
 }

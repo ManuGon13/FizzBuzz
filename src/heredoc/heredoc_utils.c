@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:33:44 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/09 16:40:13 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/09 17:56:51 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ int	prepare_cmd_heredocs(t_cmd *cmd, t_shell *shell)
 		}
 		tmp = tmp->next;
 	}
+	if (cmd->heredoc_fd >= 0 && !last_input_is_heredoc(cmd->tokens))
+		close_heredoc_fd(&cmd->heredoc_fd);
 	return (0);
 }
