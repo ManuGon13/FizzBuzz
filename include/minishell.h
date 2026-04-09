@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/04/03 16:17:31 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/09 17:03:11 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,15 @@ t_token	*lexer(char *input);
 void	if_heredoc(t_token **tokens, t_cmd *cmd);
 int		add_arg(t_cmd *cmd, char *arg);
 t_cmd	*new_cmd(void);
-int		token_word(char *value, t_cmd *cmd, t_cmd *start, t_shell *shell);
-int		token_pipe(t_cmd **cmd, t_cmd *start);
+int		token_word(char *value, t_cmd *cmd, t_shell *shell);
+int		token_pipe(t_cmd **cmd);
 char	*remove_quotes(char *str);
 t_cmd	*parser(t_token *tokens, t_shell *shell);
 int		init_redir_arrays(t_cmd *cmd, t_token *tokens);
 
 /* Prototypes executor */
+void	apply_redir_side_effects(t_exec *exec, t_cmd *cmd, char **envp);
+int		last_input_is_heredoc(t_token *tokens);
 void	handle_exec_signal(int sig);
 int		get_exit_status(int status);
 int		ft_wait(pid_t last_pid);

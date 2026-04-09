@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 18:46:18 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/25 19:09:17 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/09 17:31:55 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,16 @@ int	ft_wait(pid_t last_pid)
 	while (pid > 0)
 	{
 		if (pid == last_pid)
+		{
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			{
+				if (WCOREDUMP(status))
+					write(2, "Quit (core dumped)\n", 19);
+				else
+					write(2, "Quit\n", 5);
+			}
 			exit_code = get_exit_status(status);
+		}
 		pid = wait(&status);
 	}
 	return (exit_code);

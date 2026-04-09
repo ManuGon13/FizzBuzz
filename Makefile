@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/04/03 16:17:32 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/04/09 17:03:35 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS		= src/main.c \
 			src/execution/execution_struct.c \
 			src/execution/execution_process.c \
 			src/execution/execution_process_helpers.c \
+			src/execution/execution_process_helpers2.c \
 			src/execution/execution_dup2_fail.c \
 			src/execution/execution_wait.c \
 			src/execution/execution_finish.c \

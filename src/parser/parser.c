@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/04/03 15:52:04 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/09 15:53:22 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	handle_redir(t_cmd *cmd, t_token **tokens)
 	*tokens = (*tokens)->next;
 }
 
-static int	parse_loop(t_token *tokens, t_cmd **cmd, t_cmd *tmp, t_shell *shell)
+static int	parse_loop(t_token *tokens, t_cmd **cmd, t_shell *shell)
 {
 	t_token	*start;
 
@@ -87,17 +87,17 @@ static int	parse_loop(t_token *tokens, t_cmd **cmd, t_cmd *tmp, t_shell *shell)
 	{
 		if (tokens->type == WORD)
 		{
-			if (token_word(tokens->value, *cmd, tmp, shell))
+			if (token_word(tokens->value, *cmd, shell))
 				return (1);
 		}
 		else if (tokens->type == PIPE)
 		{
 			(*cmd)->tokens = start;
-			if (token_pipe(cmd, tmp))
+			if (token_pipe(cmd))
 				return (1);
 			start = tokens->next;
 			if (!init_redir_arrays(*cmd, start))
-				return (free_cmds(tmp), 1);
+				return (1);
 		}
 		else
 			handle_redir(*cmd, &tokens);
@@ -118,7 +118,7 @@ t_cmd	*parser(t_token *tokens, t_shell *shell)
 	if (!init_redir_arrays(tmp, tokens))
 		return (free_cmds(tmp), NULL);
 	cmd = tmp;
-	if (parse_loop(tokens, &cmd, tmp, shell))
-		return (NULL);
+	if (parse_loop(tokens, &cmd, shell))
+		return (free_cmds(tmp), NULL);
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 18:08:08 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/27 17:03:24 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/09 17:02:51 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,6 @@ void	open_redir_side_effect(t_exec *exec, t_cmd *cmd,
 void	redirect_outfile_or_fail(t_exec *exec, t_cmd *cmd,
 			char **envp, int outfile);
 void	dup_stdin_or_fail(int fd, char **envp);
-
-static void	apply_redir_side_effects(t_exec *exec, t_cmd *cmd, char **envp)
-{
-	t_token	*tokens;
-
-	tokens = cmd->tokens;
-	while (tokens && tokens->type != PIPE)
-	{
-		if (is_file_redir(tokens)
-			&& tokens->next && tokens->next->type == WORD)
-		{
-			open_redir_side_effect(exec, cmd, envp, tokens);
-			tokens = tokens->next;
-		}
-		tokens = tokens->next;
-	}
-}
 
 static void	process_outfile(t_exec *exec, t_cmd *cmd, char **envp)
 {
@@ -78,16 +61,13 @@ void	process_outfile_next(t_exec *exec, t_cmd *cmd, char **envp)
 	finish_execution(exec, cmd, envp);
 }
 
-static void	process_stdin(t_exec *exec, t_cmd *cmd, char **envp)
+static void	process_stdin_non_heredoc(t_exec *exec, t_cmd *cmd, char **envp)
 {
 	int	infile;
 
 	if (cmd->heredoc_fd >= 0)
-	{
-		dup_stdin_or_fail(cmd->heredoc_fd, envp);
 		close_heredoc_fd(&cmd->heredoc_fd);
-	}
-	else if (cmd->infile)
+	if (cmd->infile)
 	{
 		infile = open(cmd->infile, O_RDONLY);
 		if (infile == -1)
@@ -103,6 +83,17 @@ static void	process_stdin(t_exec *exec, t_cmd *cmd, char **envp)
 		dup_stdin_or_fail(exec->prev_fd, envp);
 		close(exec->prev_fd);
 	}
+}
+
+static void	process_stdin(t_exec *exec, t_cmd *cmd, char **envp)
+{
+	if (cmd->heredoc_fd >= 0 && last_input_is_heredoc(cmd->tokens))
+	{
+		dup_stdin_or_fail(cmd->heredoc_fd, envp);
+		close_heredoc_fd(&cmd->heredoc_fd);
+	}
+	else
+		process_stdin_non_heredoc(exec, cmd, envp);
 }
 
 void	process_exec(t_exec *exec, t_cmd *cmd)
