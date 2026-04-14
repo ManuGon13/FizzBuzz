@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:33:44 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/09 17:56:51 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/14 18:51:04 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static int	prepare_one_heredoc(t_cmd *cmd, t_token *tmp, t_shell *shell)
 	cmd->heredoc_delim = new_delim;
 	fd = handle_heredoc(cmd, shell);
 	if (fd < 0)
-		return (shell->exit_status = 130, 1);
+	{
+		shell->exit_status = 130;
+		return (1);
+	}
 	close_heredoc_fd(&cmd->heredoc_fd);
 	cmd->heredoc_fd = fd;
 	return (0);
