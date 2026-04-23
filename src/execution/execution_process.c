@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 18:08:08 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/09 17:02:51 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/23 16:29:26 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	process_exec(t_exec *exec, t_cmd *cmd)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	close_next_heredocs(cmd);
 	envp = env_to_array(exec->env);
 	if (!envp)
 	{

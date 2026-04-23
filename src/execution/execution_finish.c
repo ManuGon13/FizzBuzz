@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 19:55:31 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 16:09:39 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/23 16:52:46 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	prepare_exec_fail(char *command, char **envp, int not_found)
 	else
 		perror(command);
 	free_split(envp);
+	close_child_stdio();
 	if (not_found)
 		exit(127);
 	exit(126);
@@ -85,6 +86,7 @@ static void	exec_external(t_cmd *cmd, char **envp)
 	{
 		perror("malloc");
 		free_split(envp);
+		close_child_stdio();
 		exit(1);
 	}
 	execve("/bin/sh", sh_argv, envp);
@@ -99,10 +101,12 @@ void	finish_execution(t_exec *exec, t_cmd *cmd, char **envp)
 	{
 		exit_code = exec_builtin(cmd, exec);
 		free_split(envp);
+		close_child_stdio();
 		exit(exit_code);
 	}
 	exec_external(cmd, envp);
 	perror(cmd->argv[0]);
 	free_split(envp);
+	close_child_stdio();
 	exit(1);
 }

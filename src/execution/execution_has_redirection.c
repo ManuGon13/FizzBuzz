@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   execution_has_redirection.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/23 16:16:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/17 16:04:05 by ltourbe          ###   ########.fr       */
+/*   Created: 2026/04/23 16:51:33 by ltourbe           #+#    #+#             */
+/*   Updated: 2026/04/23 17:20:48 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_env *env)
+int	has_redirections(t_cmd *cmd)
 {
-	char	buf[1024];
-	size_t	size;
-	char	*pwd;
+	t_token	*tok;
 
-	pwd = get_env_value(env, "PWD");
-	if (pwd && *pwd)
-	{
-		printf("%s\n", pwd);
+	if (!cmd)
 		return (0);
+	if (cmd->heredoc_fd >= 0)
+		return (1);
+	tok = cmd->tokens;
+	while (tok && tok->type != PIPE)
+	{
+		if (tok->type == REDIR_IN || tok->type == REDIR_OUT
+			|| tok->type == APPEND || tok->type == HEREDOC)
+			return (1);
+		tok = tok->next;
 	}
-	size = sizeof(buf);
-	pwd = getcwd(buf, size);
-	if (pwd)
-		printf("%s\n", pwd);
-	else
-		perror("pwd");
 	return (0);
 }

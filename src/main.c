@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 18:22:07 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/03/26 18:38:36 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/23 17:48:15 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,14 @@ void	handle_signal(int sig)
 	rl_redisplay();
 }
 
-int	main(int ac, char **av, char **envp)
+static void	shell_loop(t_shell *shell)
 {
 	char	*line;
 	t_token	*tokens;
 	t_cmd	*cmds;
-	t_shell	shell;
 
-	(void)ac;
-	(void)av;
 	tokens = NULL;
 	cmds = NULL;
-	shell.env = env_init(envp);
-	shell.exit_status = 0;
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -64,9 +57,25 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (*line)
 			add_history(line);
-		minishell(line, tokens, cmds, &shell);
+		minishell(line, tokens, cmds, shell);
+		if (shell->should_exit)
+			break ;
 	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
+
+	(void)ac;
+	(void)av;
+	shell.env = env_init(envp);
+	shell.exit_status = 0;
+	shell.should_exit = 0;
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, SIG_IGN);
+	shell_loop(&shell);
 	clear_history();
 	free_env(shell.env);
-	return (0);
+	return (shell.exit_status);
 }

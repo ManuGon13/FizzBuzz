@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/04/09 17:03:11 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/23 17:44:24 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_shell
 {
 	t_env	*env;
 	int		exit_status;
+	int		should_exit;
 }	t_shell;
 
 /* s'occupe de l'executor */
@@ -137,7 +138,7 @@ int		ft_unset(t_env **env, char **argv);
 int		ft_exit(char **argv);
 int		ft_env(t_env *env);
 int		ft_cd(t_cmd *cmd, t_env *env);
-int		ft_pwd(void);
+int		ft_pwd(t_env *env);
 void	print_export(t_env *env);
 int		ft_export(t_cmd *cmd, t_env **env);
 
@@ -159,6 +160,10 @@ t_cmd	*parser(t_token *tokens, t_shell *shell);
 int		init_redir_arrays(t_cmd *cmd, t_token *tokens);
 
 /* Prototypes executor */
+void	close_child_stdio(void);
+int		has_redirections(t_cmd *cmd);
+void	close_next_heredocs(t_cmd *cmd);
+void	close_future_heredoc_fds(t_cmd *cmd);
 void	apply_redir_side_effects(t_exec *exec, t_cmd *cmd, char **envp);
 int		last_input_is_heredoc(t_token *tokens);
 void	handle_exec_signal(int sig);
@@ -173,6 +178,7 @@ int		apply_stdin_redirection(t_cmd *cmd);
 int		exec_builtin_parent(t_exec *exec, t_cmd *cmd);
 int		exec_builtin(t_cmd *cmd, t_exec *exec);
 int		is_builtin(t_cmd *cmd);
+int		builtin_must_run_in_parent(t_cmd *cmd);
 void	struct_exec_init(t_exec *exec, t_env *env, int *fd, int prev_fd);
 void	closing(t_cmd *cmd, int *prev_fd, int *fd);
 char	**find_path(char **envp);

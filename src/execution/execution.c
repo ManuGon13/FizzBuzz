@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 18:25:34 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/03 16:19:30 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/23 17:44:24 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ static pid_t	launch_command(t_exec *exec, t_cmd *cmd, int *fd)
 	if (pid1 < 0)
 		return (execution_error_cleanup(exec, fd, has_pipe), -1);
 	if (pid1 == 0)
+	{
+		close_future_heredoc_fds(cmd->next);
 		process_exec(exec, cmd);
+	}
 	closing(cmd, &exec->prev_fd, fd);
 	return (pid1);
 }
@@ -49,6 +52,9 @@ static pid_t	launch_command(t_exec *exec, t_cmd *cmd, int *fd)
 static int	exec_single_builtin(t_exec *exec, t_cmd *cmd, t_shell *shell)
 {
 	shell->exit_status = exec_builtin_parent(exec, cmd);
+	if (!ft_strcmp(cmd->argv[0], "exit")
+		&& (!cmd->argv[1] || cmd->argv[2] == NULL))
+		shell->should_exit = 1;
 	shell->env = exec->env;
 	return (1);
 }
@@ -60,6 +66,8 @@ static int	all_commands(t_exec *exec, t_cmd *cmd, int *fd, pid_t *last_pid)
 		*last_pid = launch_command(exec, cmd, fd);
 		if (*last_pid < 0)
 			return (0);
+		if (cmd->heredoc_fd >= 0)
+			close_heredoc_fd(&cmd->heredoc_fd);
 		cmd = cmd->next;
 	}
 	return (1);
@@ -76,7 +84,8 @@ void	execution(t_cmd *cmd, t_shell *shell)
 	fd[0] = -1;
 	fd[1] = -1;
 	struct_exec_init(&exec, shell->env, fd, STDIN_FILENO);
-	if (is_builtin(cmd) && !cmd->next && exec_single_builtin(&exec, cmd, shell))
+	if (is_builtin(cmd) && !cmd->next && builtin_must_run_in_parent(cmd)
+		&& exec_single_builtin(&exec, cmd, shell))
 		return ;
 	signal(SIGINT, handle_exec_signal);
 	signal(SIGQUIT, SIG_IGN);

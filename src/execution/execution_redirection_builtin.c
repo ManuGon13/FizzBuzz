@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 19:33:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/03 16:17:33 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/23 16:51:01 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	exec_builtin_parent(t_exec *exec, t_cmd *cmd)
 	int	stdout_backup;
 	int	status;
 
+	if (!has_redirections(cmd))
+		return (exec_builtin(cmd, exec));
 	if (!backup_stdio(&stdin_backup, &stdout_backup))
 		return (1);
 	if (!apply_redirections(cmd))

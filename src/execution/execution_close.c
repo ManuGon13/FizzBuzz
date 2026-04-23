@@ -1,34 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   execution_close.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/23 16:16:45 by ltourbe           #+#    #+#             */
-/*   Updated: 2026/04/17 16:04:05 by ltourbe          ###   ########.fr       */
+/*   Created: 2026/04/23 16:28:41 by ltourbe           #+#    #+#             */
+/*   Updated: 2026/04/23 16:52:54 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_env *env)
+void	close_future_heredoc_fds(t_cmd *cmd)
 {
-	char	buf[1024];
-	size_t	size;
-	char	*pwd;
-
-	pwd = get_env_value(env, "PWD");
-	if (pwd && *pwd)
+	while (cmd)
 	{
-		printf("%s\n", pwd);
-		return (0);
+		if (cmd->heredoc_fd >= 0)
+			close_heredoc_fd(&cmd->heredoc_fd);
+		cmd = cmd->next;
 	}
-	size = sizeof(buf);
-	pwd = getcwd(buf, size);
-	if (pwd)
-		printf("%s\n", pwd);
-	else
-		perror("pwd");
-	return (0);
+}
+
+void	close_next_heredocs(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd->next;
+	while (tmp)
+	{
+		if (tmp->heredoc_fd >= 0)
+			close_heredoc_fd(&tmp->heredoc_fd);
+		tmp = tmp->next;
+	}
+}
+
+void	close_child_stdio(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 }
