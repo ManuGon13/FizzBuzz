@@ -6,7 +6,7 @@
 #    By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 20:24:40 by egonin            #+#    #+#              #
-#    Updated: 2026/04/23 16:54:03 by ltourbe          ###   ########.fr        #
+#    Updated: 2026/04/24 17:31:31 by ltourbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS		= src/main.c \
 			src/env/env_utils.c \
 			src/env/env_utils2.c \
 			src/parser/parser.c \
+			src/parser/parser_syntax.c \
 			src/parser/parser_utils.c \
 			src/parser/parser_word_pipe.c \
 			src/builtins/ft_echo.c \

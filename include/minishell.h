@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:22:09 by egonin            #+#    #+#             */
-/*   Updated: 2026/04/23 17:44:24 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/24 17:31:31 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int		token_pipe(t_cmd **cmd);
 char	*remove_quotes(char *str);
 t_cmd	*parser(t_token *tokens, t_shell *shell);
 int		init_redir_arrays(t_cmd *cmd, t_token *tokens);
+int		validate_pipe_syntax(t_token *tokens, t_shell *shell);
 
 /* Prototypes executor */
 void	close_child_stdio(void);

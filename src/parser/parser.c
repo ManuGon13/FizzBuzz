@@ -6,7 +6,7 @@
 /*   By: ltourbe <ltourbe@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 15:54:02 by egonin            #+#    #+#             */
-/*   Updated: 2026/04/09 15:53:22 by ltourbe          ###   ########.fr       */
+/*   Updated: 2026/04/24 17:31:31 by ltourbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ t_cmd	*parser(t_token *tokens, t_shell *shell)
 	t_cmd	*cmd;
 	t_cmd	*tmp;
 
+	if (!tokens)
+		return (NULL);
+	if (validate_pipe_syntax(tokens, shell))
+		return (NULL);
 	tmp = new_cmd();
 	if (!tmp)
 		return (NULL);
